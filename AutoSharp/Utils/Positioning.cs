@@ -24,13 +24,11 @@ namespace AutoSharp.Utils
             var farthestAlly =
                 Heroes.AllyHeroes.OrderByDescending(h => h.Distance(HeadQuarters.AllyHQ)).FirstOrDefault();
             var teamPoly = new List<Geometry.Polygon>();
-            var heroesPoly = new List<Geometry.Polygon>();
             foreach (var hero in Heroes.AllyHeroes)
             {
                 if (hero.Distance(farthestAlly) < 1000)
                 {
-                    heroesPoly.Add(new Geometry.Circle(hero.Position.To2D(), 200).ToPolygon());
-                    teamPoly.Add(new Geometry.Circle(hero.Position.To2D(), 700).ToPolygon());
+                    teamPoly.Add(new Geometry.Circle(hero.Position.To2D(), 350).ToPolygon());
                 }
             }
 
