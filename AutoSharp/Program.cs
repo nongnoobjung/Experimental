@@ -14,7 +14,7 @@ namespace AutoSharp
 
         public static void Init()
         {
-            Config = new Menu("AutoSharp", "autosharp", true);
+            Config = new Menu("AutoSharp: " + ObjectManager.Player.ChampionName, "autosharp." + ObjectManager.Player.ChampionName, true);
             Config.AddItem(new MenuItem("autosharp.mode", "Mode").SetValue(new StringList(new[] {"AUTO", "SBTW"}))).ValueChanged +=
                 (sender, args) =>
                 {
@@ -39,7 +39,6 @@ namespace AutoSharp
 
 
             Orbwalker = new MyOrbwalker.Orbwalker(orbwalker);
-            Config.AddToMainMenu();
 
             Utility.DelayAction.Add(
                     new Random().Next(1000, 10000), () =>

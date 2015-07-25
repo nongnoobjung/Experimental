@@ -17,6 +17,7 @@ namespace AutoSharp.Auto
             {
                 case GameMapId.SummonersRift:
                 {
+                    return; //#TODO: Disabled untill fixed;
                     Game.OnUpdate += UpdateMyTeam => { MyTeam.Update(); };
                     SRManager.Load();
                     break;
@@ -35,6 +36,7 @@ namespace AutoSharp.Auto
             {
                 case GameMapId.SummonersRift:
                 {
+                    return; //#TODO: Disabled untill fixed;
                     SRManager.Unload();
                     break;
                 }

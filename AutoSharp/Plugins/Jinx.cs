@@ -7,7 +7,7 @@ using SharpDX;
 using AutoSharp;
 using AutoSharp.Utils;
 
-namespace AIM.Plugins
+namespace AutoSharp.Plugins
 {
     public class Jinx : PluginBase
     {

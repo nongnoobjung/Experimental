@@ -170,7 +170,7 @@ namespace AutoSharp.Utils
             bool team = true)
         {
             return spell.IsReady() && target.IsValidTarget(range ? spell.Range : float.MaxValue, team) &&
-                   PluginBase.Config.Item(menu + ObjectManager.Player.ChampionName).GetValue<bool>() && !ObjectManager.Player.UnderTurret(true);
+                   PluginBase.Config.Item("autosharp." + ObjectManager.Player.ChampionName + "." + menu).GetValue<bool>() && !ObjectManager.Player.UnderTurret(true);
         }
 
         public static bool CastCheck(this Spell spell, Obj_AI_Base target, bool range = true, bool team = true)
@@ -201,24 +201,24 @@ namespace AutoSharp.Utils
         public static void AddList(this Menu menu, string name, string displayName, string[] list)
         {
             menu.AddItem(
-                new MenuItem(name + ObjectManager.Player.ChampionName, displayName).SetValue(new StringList(list)));
+                new MenuItem("autosharp." + ObjectManager.Player.ChampionName + "." + name, displayName).SetValue(new StringList(list)));
         }
 
         public static void AddBool(this Menu menu, string name, string displayName, bool value)
         {
-            menu.AddItem(new MenuItem(name + ObjectManager.Player.ChampionName, displayName).SetValue(value));
+            menu.AddItem(new MenuItem("autosharp." + ObjectManager.Player.ChampionName + "." + name, displayName).SetValue(value));
         }
 
         public static void AddSlider(this Menu menu, string name, string displayName, int value, int min, int max)
         {
             menu.AddItem(
-                new MenuItem(name + ObjectManager.Player.ChampionName, displayName).SetValue(
+                new MenuItem("autosharp." + ObjectManager.Player.ChampionName + "." + name, displayName).SetValue(
                     new Slider(value, min, max)));
         }
 
         public static void AddObject(this Menu menu, string name, string displayName, object value)
         {
-            menu.AddItem(new MenuItem(name + ObjectManager.Player.ChampionName, displayName).SetValue(value));
+            menu.AddItem(new MenuItem("autosharp." + ObjectManager.Player.ChampionName + "." + name, displayName).SetValue(value));
         }
     }
 

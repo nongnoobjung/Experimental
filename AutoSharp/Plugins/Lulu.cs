@@ -1,22 +1,22 @@
 ﻿#region LICENSE
 
-// Copyright 2014-2015 AIM
-// Lulu.cs is part of AIM.
+// Copyright 2014-2015 AutoSharp
+// Lulu.cs is part of AutoSharp.
 // 
-// AIM is free software: you can redistribute it and/or modify
+// AutoSharp is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 // 
-// AIM is distributed in the hope that it will be useful,
+// AutoSharp is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 // GNU General Public License for more details.
 // 
 // You should have received a copy of the GNU General Public License
-// along with AIM. If not, see <http://www.gnu.org/licenses/>.
+// along with AutoSharp. If not, see <http://www.gnu.org/licenses/>.
 // 
-// Filename: AIM/AIM/Lulu.cs
+// Filename: AutoSharp/AutoSharp/Lulu.cs
 // Created:  01/10/2014
 // Date:     20/01/2015/11:20
 // Author:   h3h3

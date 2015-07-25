@@ -34,7 +34,7 @@ namespace AutoSharp
         /// <summary>
         ///     Orbwalker
         /// </summary>
-        public Orbwalking.Orbwalker Orbwalker { get; set; }
+        public MyOrbwalker.Orbwalker Orbwalker { get; set; }
 
         /// <summary>
         ///     ActiveMode
@@ -42,7 +42,7 @@ namespace AutoSharp
         public static Orbwalking.OrbwalkingMode ActiveMode { get; set; }
 
         /// <summary>
-        ///     SupportTargetSelector
+        ///     TargetSelector
         /// </summary>
         public TargetSelector TargetSelector { get; set; }
 
@@ -59,7 +59,7 @@ namespace AutoSharp
         /// </summary>
         public bool HarassMode
         {
-            get { return Orbwalker.ActiveMode == Orbwalking.OrbwalkingMode.Mixed && HarassMana && !Player.IsDead; }
+            get { return Orbwalker.ActiveMode == MyOrbwalker.OrbwalkingMode.Mixed && HarassMana && !Player.IsDead; }
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace AutoSharp
         /// <returns></returns>
         public T ConfigValue<T>(string item)
         {
-            return Config.Item(item + ChampionName).GetValue<T>();
+            return Config.Item("autosharp." + ObjectManager.Player.ChampionName + "." + item).GetValue<T>();
         }
 
         /// <summary>
@@ -339,8 +339,7 @@ namespace AutoSharp
         /// </summary>
         private void InitConfig()
         {
-            Config = new Menu("AIM: " + Player.ChampionName, Player.ChampionName, true);
-            Config.AddSubMenu(new Menu("Orbwalking", "Orbwalking"));
+            Config = Program.Config;
             TargetSelector.AddToMenu(Config.AddSubMenu(new Menu("Target Selector", "Target Selector")));
 
             ComboConfig = Config.AddSubMenu(new Menu("Combo", "Combo"));
@@ -389,7 +388,7 @@ namespace AutoSharp
         /// </summary>
         private void InitOrbwalker()
         {
-            Orbwalker = new Orbwalking.Orbwalker(Config.SubMenu("Orbwalking"));
+            Orbwalker = Program.Orbwalker;
         }
 
         #endregion
