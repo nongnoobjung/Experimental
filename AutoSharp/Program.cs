@@ -35,6 +35,7 @@ namespace AutoSharp
             randomizer.AddItem(new MenuItem("autosharp.randomizer.playdefensive", "Play Defensive?").SetValue(true));
             randomizer.AddItem(new MenuItem("autosharp.randomizer.auto", "Auto-Adjust? (ALPHA)").SetValue(true));
 
+            new PluginLoader();
             CustomEvents.Game.OnGameLoad += args => { Cache.Load(); Game.OnUpdate += Positioning.OnUpdate; Autoplay.Load(); };
 
 
@@ -43,7 +44,6 @@ namespace AutoSharp
             Utility.DelayAction.Add(
                     new Random().Next(1000, 10000), () =>
                     {
-                        new PluginLoader();
                         new LeagueSharp.Common.AutoLevel(Utils.AutoLevel.GetSequence().Select(num => num - 1).ToArray());
                         LeagueSharp.Common.AutoLevel.Enable();
                         Console.WriteLine("AutoLevel Init Success!");

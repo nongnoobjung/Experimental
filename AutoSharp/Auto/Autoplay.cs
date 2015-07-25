@@ -17,12 +17,25 @@ namespace AutoSharp.Auto
             {
                 case GameMapId.SummonersRift:
                 {
-                    return; //#TODO: Disabled untill fixed;
+                    break; //#TODO: Disabled untill fixed;
                     Game.OnUpdate += UpdateMyTeam => { MyTeam.Update(); };
                     SRManager.Load();
                     break;
                 }
+                case GameMapId.CrystalScar:
+                {
+                    break;
+                }
+                case GameMapId.TwistedTreeline:
+                {
+                    break;
+                }
                 case GameMapId.HowlingAbyss:
+                {
+                    HAManager.Load();
+                    break;
+                }
+                default:
                 {
                     HAManager.Load();
                     break;
@@ -41,6 +54,11 @@ namespace AutoSharp.Auto
                     break;
                 }
                 case GameMapId.HowlingAbyss:
+                {
+                    HAManager.Unload();
+                    break;
+                }
+                default:
                 {
                     HAManager.Unload();
                     break;
