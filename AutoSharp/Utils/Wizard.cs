@@ -146,6 +146,80 @@ namespace AutoSharp.Utils
             return hero.HasItem(ItemId.Ancient_Coin) || hero.HasItem(ItemId.Relic_Shield) ||
                    hero.HasItem(ItemId.Spellthiefs_Edge);
         }
+
+        public static bool IsValidAlly(this Obj_AI_Base unit, float range = float.MaxValue)
+        {
+            return unit.Distance(ObjectManager.Player) < range && unit.IsValid<Obj_AI_Hero>() && unit.IsAlly &&
+                   !unit.IsDead && unit.IsTargetable;
+        }
+
+        public static double HealthBuffer(this Obj_AI_Base hero, int buffer)
+        {
+            return hero.Health - (hero.MaxHealth * buffer / 100);
+        }
+
+        public static bool CastCheck(this Items.Item item, Obj_AI_Base target)
+        {
+            return item.IsReady() && target.IsValidTarget(item.Range);
+        }
+
+        public static bool CastCheck(this Spell spell,
+            Obj_AI_Base target,
+            string menu,
+            bool range = true,
+            bool team = true)
+        {
+            return spell.IsReady() && target.IsValidTarget(range ? spell.Range : float.MaxValue, team) &&
+                   PluginBase.Config.Item(menu + ObjectManager.Player.ChampionName).GetValue<bool>() && !ObjectManager.Player.UnderTurret(true);
+        }
+
+        public static bool CastCheck(this Spell spell, Obj_AI_Base target, bool range = true, bool team = true)
+        {
+            return spell.IsReady() && target.IsValidTarget(range ? spell.Range : float.MaxValue, team);
+        }
+
+        public static bool IsInRange(this Spell spell, Obj_AI_Base target)
+        {
+            return ObjectManager.Player.Distance(target) < spell.Range;
+        }
+
+        public static bool IsInRange(this Items.Item item, Obj_AI_Base target)
+        {
+            return ObjectManager.Player.Distance(target) < item.Range;
+        }
+
+        public static bool WillKill(this Obj_AI_Base caster, Obj_AI_Base target, string spell, int buffer = 10)
+        {
+            return caster.GetSpellDamage(target, spell) >= target.HealthBuffer(buffer);
+        }
+
+        public static bool WillKill(this Obj_AI_Base caster, Obj_AI_Base target, SpellData spell, int buffer = 10)
+        {
+            return caster.GetSpellDamage(target, spell.Name) >= target.HealthBuffer(buffer);
+        }
+
+        public static void AddList(this Menu menu, string name, string displayName, string[] list)
+        {
+            menu.AddItem(
+                new MenuItem(name + ObjectManager.Player.ChampionName, displayName).SetValue(new StringList(list)));
+        }
+
+        public static void AddBool(this Menu menu, string name, string displayName, bool value)
+        {
+            menu.AddItem(new MenuItem(name + ObjectManager.Player.ChampionName, displayName).SetValue(value));
+        }
+
+        public static void AddSlider(this Menu menu, string name, string displayName, int value, int min, int max)
+        {
+            menu.AddItem(
+                new MenuItem(name + ObjectManager.Player.ChampionName, displayName).SetValue(
+                    new Slider(value, min, max)));
+        }
+
+        public static void AddObject(this Menu menu, string name, string displayName, object value)
+        {
+            menu.AddItem(new MenuItem(name + ObjectManager.Player.ChampionName, displayName).SetValue(value));
+        }
     }
 
     internal static class Wizard

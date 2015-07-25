@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
 using ClipperLib;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -39,6 +34,7 @@ namespace AutoSharp.Utils
 
         private const int CircleLineSegmentN = 22;
 
+        // ReSharper disable once InconsistentNaming
         public static Vector3 SwitchYZ(this Vector3 v)
         {
             return new Vector3(v.X, v.Z, v.Y);
@@ -254,6 +250,7 @@ namespace AutoSharp.Utils
                 var result = new Polygon();
                 var outRadius = (Radius + offset)/(float) Math.Cos(2*Math.PI/CircleLineSegmentN);
                 result.Add(Center);
+                // ReSharper disable once InconsistentNaming
                 var Side1 = Direction.Rotated(-Angle*0.5f);
                 for (var i = 0; i <= CircleLineSegmentN; i++)
                 {
