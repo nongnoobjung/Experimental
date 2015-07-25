@@ -33,7 +33,7 @@ namespace AutoSharp.Auto.HowlingAbyss.ARAMShopAI
         }
         public static Item GetItemByName(string name)
         {
-            return ItemList.First(x => x.Name.Equals(name));
+            return ItemList.FirstOrDefault(x => x.Name.Equals(name));
         }
         public static string Request(string url)
         {
