@@ -176,14 +176,7 @@ namespace AutoSharp.Auto.HowlingAbyss.ARAMShopAI
         public static bool CanBuy = true;
         public static void Init()
         {
-            const string dataJson = "http://ddragon.leagueoflegends.com/realms/na.json";
-            string responseFromServer = Request(dataJson);
-            responseFromServer = responseFromServer.Replace("{\"n\":", "");
-            responseFromServer = responseFromServer.Replace("{", "");
-            responseFromServer = responseFromServer.Replace("}", "");
-            responseFromServer = responseFromServer.Replace("\"", "");
-            string itemVersion = responseFromServer.Split(',')[0].Split(':')[1];
-            string itemJson = "http://ddragon.leagueoflegends.com/cdn/" + itemVersion + "/data/en_US/item.json";
+            string itemJson = "https://raw.githubusercontent.com/myo/Experimental/master/item.json";
             string itemsData = Request(itemJson);
             string itemArray = itemsData.Split(new[] { "data" }, StringSplitOptions.None)[1];
             MatchCollection itemIdArray = Regex.Matches(itemArray, "[\"]\\d*[\"][:][{].*?(?=},\"\\d)");
