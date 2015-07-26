@@ -14,15 +14,14 @@ namespace AutoSharp.Utils
 
         internal static void OnUpdate(EventArgs args)
         {
-            if (Environment.TickCount - LastUpdate < 350) return;
+            if (Environment.TickCount - LastUpdate < 250) return;
             LastUpdate = Environment.TickCount;
 
             ValidPossibleMoves = new List<Vector3>();
 
-            var farthestAlly =
-                Heroes.AllyHeroes.OrderByDescending(h => h.Distance(HeadQuarters.AllyHQ)).FirstOrDefault();
+            var farthestAlly = Heroes.AllyHeroes.OrderByDescending(h => h.Distance(HeadQuarters.AllyHQ)).FirstOrDefault();
 
-            var teamPoly = (from hero in Heroes.AllyHeroes where hero.Distance(farthestAlly) < (Heroes.Player.IsMelee ? 250 : Heroes.Player.AttackRange) select new Geometry.Circle(hero.Position.To2D(), 350).ToPolygon()).ToList();
+            var teamPoly = (from hero in Heroes.AllyHeroes where hero.Distance(farthestAlly) < (Heroes.Player.IsMelee ? 250 : Heroes.Player.AttackRange) select new Geometry.Circle(hero.Position.To2D(), 250).ToPolygon()).ToList();
 
             teamPoly.ForEach(hp => hp.Points.ForEach(point => ValidPossibleMoves.Add(point.To3D())));
 
@@ -37,7 +36,7 @@ namespace AutoSharp.Utils
                     }
                 }
             }
-            RandomlyChosenMove = ValidPossibleMoves.OrderBy(v => new Random(Environment.TickCount).Next(0, 42)).FirstOrDefault();
+            RandomlyChosenMove = ValidPossibleMoves.OrderBy(v => Heroes.Player.IsMelee ? new Random(Environment.TickCount).Next(0, 42) : v.Distance(HeadQuarters.AllyHQ.Position)).FirstOrDefault();
         }
     }
 }

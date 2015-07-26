@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoSharp.Utils;
-using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace AutoSharp.Auto.HowlingAbyss
@@ -14,6 +9,12 @@ namespace AutoSharp.Auto.HowlingAbyss
         public static void OnUpdate(EventArgs args)
         {
             var player = Heroes.Player;
+
+            if (Decisions.ImSoLonely())
+            {
+                return;
+            }
+
             if (Decisions.HealUp())
             {
                 return;
@@ -21,8 +22,8 @@ namespace AutoSharp.Auto.HowlingAbyss
 
             if (player.UnderTurret(true) && Wizard.GetClosestEnemyTurret().CountNearbyAllyMinions(700) <= 2 && Wizard.GetClosestEnemyTurret().CountAlliesInRange(700) == 0)
             {
-                Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
-                player.IssueOrder(GameObjectOrder.MoveTo, player.Position.Extend(HeadQuarters.AllyHQ.Position.RandomizePosition(), 800));
+                Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.Mixed;
+                Program.Orbwalker.SetOrbwalkingPoint(player.Position.Extend(HeadQuarters.AllyHQ.Position.RandomizePosition(), 800));
                 return;
             }
 
@@ -36,7 +37,6 @@ namespace AutoSharp.Auto.HowlingAbyss
             {
                 return;
             }
-
             Decisions.Fight();
         }
     }
