@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoSharp.Auto.HowlingAbyss;
+﻿using AutoSharp.Auto.HowlingAbyss;
 using AutoSharp.Auto.SummonersRift;
 using LeagueSharp;
 
@@ -17,8 +12,7 @@ namespace AutoSharp.Auto
             {
                 case GameMapId.SummonersRift:
                 {
-                    break; //#TODO: Disabled untill fixed;
-                    Game.OnUpdate += UpdateMyTeam => { MyTeam.Update(); };
+                    Game.OnUpdate += args => { MyTeam.Update(); };
                     SRManager.Load();
                     break;
                 }
@@ -49,7 +43,6 @@ namespace AutoSharp.Auto
             {
                 case GameMapId.SummonersRift:
                 {
-                    return; //#TODO: Disabled untill fixed;
                     SRManager.Unload();
                     break;
                 }

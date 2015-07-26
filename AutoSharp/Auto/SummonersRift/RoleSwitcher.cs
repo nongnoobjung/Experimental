@@ -27,7 +27,7 @@ namespace AutoSharp.Auto.SummonersRift
         {
             if (MyTeam.Support == null)
             {
-                if (Role.Support.State == Enums.BehaviorStates.Paused)
+                if (Role.Support.State == Enums.BehaviorStates.Paused || Role.Support.IsPaused)
                 {
                     Role.Support.Resume();
                 }

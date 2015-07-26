@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using LeagueSharp.Common;
 using SharpDX;
-using ClipperLib;
 
 namespace AutoSharp.Utils
 {
@@ -17,20 +14,15 @@ namespace AutoSharp.Utils
 
         internal static void OnUpdate(EventArgs args)
         {
-            if (Environment.TickCount - LastUpdate < 500) return;
+            if (Environment.TickCount - LastUpdate < 350) return;
             LastUpdate = Environment.TickCount;
 
             ValidPossibleMoves = new List<Vector3>();
+
             var farthestAlly =
                 Heroes.AllyHeroes.OrderByDescending(h => h.Distance(HeadQuarters.AllyHQ)).FirstOrDefault();
-            var teamPoly = new List<Geometry.Polygon>();
-            foreach (var hero in Heroes.AllyHeroes)
-            {
-                if (hero.Distance(farthestAlly) < 1000)
-                {
-                    teamPoly.Add(new Geometry.Circle(hero.Position.To2D(), 350).ToPolygon());
-                }
-            }
+
+            var teamPoly = (from hero in Heroes.AllyHeroes where hero.Distance(farthestAlly) < 1000 select new Geometry.Circle(hero.Position.To2D(), 350).ToPolygon()).ToList();
 
             teamPoly.ForEach(hp => hp.Points.ForEach(point => ValidPossibleMoves.Add(point.To3D())));
 

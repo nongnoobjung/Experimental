@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
+// ReSharper disable InconsistentNaming
 
 namespace AutoSharp.Utils
 {
@@ -126,7 +127,7 @@ namespace AutoSharp.Utils
     {
         
         private static List<Obj_AI_Minion> _minions;
-        private static int LastUpdate;
+        private static int _lastUpdate;
 
         public static List<Obj_AI_Minion> AllyMinions
         {
@@ -145,10 +146,10 @@ namespace AutoSharp.Utils
 
         public static void OnUpdate(EventArgs args)
         {
-            if (Environment.TickCount - LastUpdate < 500) return;
-            LastUpdate = Environment.TickCount;
+            if (Environment.TickCount - _lastUpdate < 500) return;
+            _lastUpdate = Environment.TickCount;
 
-            _minions = ObjectManager.Get<Obj_AI_Minion>().FindAll(m => !m.IsDead && m.IsValid && m.IsVisible);
+            _minions = ObjectManager.Get<Obj_AI_Minion>().Where(m => !m.IsDead && m.IsValid && m.IsVisible).ToList();
         }
     }
 

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoSharp.Utils;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -13,8 +9,8 @@ namespace AutoSharp.Auto.SummonersRift
     {
         public static void Load()
         {
-            AttackableUnit.OnDamage += OnDamage;
             RoleSwitcher.Load();
+            AttackableUnit.OnDamage += OnDamage;
         }
 
         public static void Unload()
@@ -41,21 +37,9 @@ namespace AutoSharp.Auto.SummonersRift
             if (Heroes.Player.HealthPercent < 30f || Heroes.Player.Gold > 2000.Randomize(1000))
             {
                 FastHalt();
-                var recallPos = Wizard.GetBestRecallPosition();
-                Heroes.Player.IssueOrder(GameObjectOrder.MoveTo, recallPos);
-                if (Heroes.Player.Distance(recallPos) < 100)
-                {
-                    if (Heroes.Player.ServerPosition.CountNearbyEnemies(900) == 0)
-                    {
-                        Heroes.Player.Spellbook.CastSpell(SpellSlot.Recall);
-                    }
-                    else
-                    {
-                        Heroes.Player.IssueOrder(GameObjectOrder.MoveTo, HeadQuarters.AllyHQ.Position);
-                        Utility.DelayAction.Add(
-                            5000.Randomize(5000), () => Heroes.Player.Spellbook.CastSpell(SpellSlot.Recall));
-                    }
-                }
+                Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
+                Heroes.Player.IssueOrder(GameObjectOrder.MoveTo, HeadQuarters.AllyHQ);
+                if (Heroes.Player.CountEnemiesInRange(1000) == 0) Heroes.Player.Spellbook.CastSpell(SpellSlot.Recall);
             }
         }
 

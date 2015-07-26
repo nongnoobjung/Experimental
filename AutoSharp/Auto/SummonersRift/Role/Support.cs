@@ -1,26 +1,29 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoSharp.Utils;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using Geometry = AutoSharp.Utils.Geometry;
+
+// ReSharper disable RedundantDefaultMemberInitializer
 
 namespace AutoSharp.Auto.SummonersRift.Role
 {
     public static class Support
     {
-        private static Obj_AI_Hero Carry;
-        private static Obj_AI_Hero TempCarry;
-        private static Obj_AI_Hero Jungler;
-        private static Obj_AI_Hero Bot = Heroes.Player;
-        private static int TimeSinceLastCarrySwitch = 0;
+        private static Obj_AI_Hero _carry;
+        private static Obj_AI_Hero _tempCarry;
+        // ReSharper disable once FieldCanBeMadeReadOnly.Local
+        private static Obj_AI_Hero _bot = Heroes.Player;
+        private static int _timeSinceLastCarrySwitch = 0;
+        private static Vector3 _followPos;
+        private static int _timeSinceLastFollowPosUpdate = 0;
 
         #region RoleManager
         //if true will pause role, not unload it!
-        private static bool paused = false;
+        // ReSharper disable once RedundantDefaultMemberInitializer
+        private static bool _paused = false;
         public static Enums.BehaviorStates State = Enums.BehaviorStates.Unknown;
 
         /// <summary>
@@ -47,7 +50,7 @@ namespace AutoSharp.Auto.SummonersRift.Role
         public static void Pause()
         {
             State = Enums.BehaviorStates.Paused;
-            paused = true;
+            _paused = true;
         }
 
         /// <summary>
@@ -56,28 +59,43 @@ namespace AutoSharp.Auto.SummonersRift.Role
         public static void Resume()
         {
             State = Enums.BehaviorStates.Running;
-            paused = false;
+            _paused = false;
         }
+
+        /// <summary>
+        /// returns wether the role is paused or not
+        /// </summary>
+        public static bool IsPaused { get { return _paused; } }
+
         #endregion
 
         public static void OnUpdate(EventArgs args)
         {
-            //stop orbwalking if dead/game ended/role is paused
-            if (Bot.IsDead || HeadQuarters.EnemyHQ.Health < 200 || paused) 
+            //stop orbwalker if dead
+            if (_bot.IsDead)
             {
                 Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
                 return;
             }
-            if (Environment.TickCount - TimeSinceLastCarrySwitch > 120000)
+
+            if (_paused) return;
+
+            if (_bot.Level < 7) // support the adc
+            {
+                _carry = MyTeam.ADC;
+                if (_carry == null)
+                {
+                    FindCarry();
+                    return;
+                }
+            }
+            else //if >lvl 7, support the most fed teammate
             {
                 SmartCarrySwitch();
             }
-            if (Carry == null || Carry == Jungler)
-            {
-                FindCarry();
-                return;
-            }
-            if (Carry.InFountain() || Carry.IsDead)
+            UpdateFollowPos();
+
+            if (_carry.InFountain() || _carry.IsDead)
             {
                 Roam();
                 return;
@@ -91,12 +109,21 @@ namespace AutoSharp.Auto.SummonersRift.Role
         /// </summary>
         public static void SmartCarrySwitch()
         {
-            if (Carry.Level < Bot.Level || Bot.Level >= 7)
+            if (Environment.TickCount - _timeSinceLastCarrySwitch < 120000) return;
+
+            if (_carry == null)
             {
-                Carry = Heroes.AllyHeroes.OrderByDescending(
+                _carry = Heroes.AllyHeroes.OrderByDescending(
+                    hero => (hero.ChampionsKilled/((hero.Deaths != 0) ? hero.Deaths : 1))).FirstOrDefault();
+                return;
+            }
+
+            if (_carry.Level < _bot.Level || _bot.Level >= 7)
+            {
+                _carry = Heroes.AllyHeroes.OrderByDescending(
                     hero => (hero.ChampionsKilled / ((hero.Deaths != 0) ? hero.Deaths : 1))).FirstOrDefault();
             }
-            TimeSinceLastCarrySwitch = Environment.TickCount;
+            _timeSinceLastCarrySwitch = Environment.TickCount;
         }
 
         /// <summary>
@@ -105,7 +132,7 @@ namespace AutoSharp.Auto.SummonersRift.Role
         public static void SupportCarry()
         {
             Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.Combo;
-            Program.Orbwalker.SetOrbwalkingPoint(Carry.ServerPosition.RandomizePosition());
+            Program.Orbwalker.SetOrbwalkingPoint(_followPos.IsValid() ? _followPos : _carry.ServerPosition.RandomizePosition());
         }
 
         /// <summary>
@@ -113,14 +140,14 @@ namespace AutoSharp.Auto.SummonersRift.Role
         /// </summary>
         public static void Roam()
         {
-            TempCarry = Heroes.AllyHeroes.OrderBy(h => h.Distance(Bot)).FirstOrDefault(h => h != Jungler && h != Carry);
-            if (TempCarry == null)
+            _tempCarry = Heroes.AllyHeroes.OrderBy(h => h.Distance(_bot)).FirstOrDefault(h => h != MyTeam.Jungler && h != _carry);
+            if (_tempCarry == null)
             {
                 //should probably go base or switch role here
                 return;
             }
             Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.Combo;
-            Program.Orbwalker.SetOrbwalkingPoint(TempCarry.ServerPosition.RandomizePosition());
+            Program.Orbwalker.SetOrbwalkingPoint(_followPos.IsValid() ? _followPos : _tempCarry.ServerPosition.RandomizePosition());
         }
 
         /// <summary>
@@ -128,16 +155,42 @@ namespace AutoSharp.Auto.SummonersRift.Role
         /// </summary>
         public static void FindCarry()
         {
-            Jungler = MyTeam.Jungler;
-            Carry = MyTeam.ADC;
-            var BotLaneTurretPos = Bot.Team == GameObjectTeam.Order ? Map.BottomLane.Blue_Outer_Turret.RandomizePosition() : Map.BottomLane.Red_Outer_Turret.RandomizePosition();
-
-            if (Bot.GoldTotal >= 400 && Bot.GoldTotal <= 600)
-            {
-                if (Bot.InFountain())
+            _carry = MyTeam.ADC;
+            var botLaneTurretPos = _bot.Team == GameObjectTeam.Order ? Map.BottomLane.Blue_Outer_Turret.RandomizePosition() : Map.BottomLane.Red_Outer_Turret.RandomizePosition();
+                if (_bot.InFountain())
                 {
                     Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.Combo;
-                    Program.Orbwalker.SetOrbwalkingPoint(BotLaneTurretPos);
+                    Program.Orbwalker.SetOrbwalkingPoint(botLaneTurretPos);
+                }
+        }
+
+        /// <summary>
+        /// this method will update the random follow position ever 400 ticks xd
+        /// </summary>
+        public static void UpdateFollowPos()
+        {
+            if (Environment.TickCount - _timeSinceLastFollowPosUpdate > 400)
+            {
+                _timeSinceLastFollowPosUpdate = Environment.TickCount;
+                if ((_carry.IsDead || _carry.InFountain()) && _tempCarry != null)
+                {
+                    var point =
+                        new Geometry.Circle(_tempCarry.Position.To2D(), 300).ToPolygon()
+                            .ToClipperPath()
+                            .OrderBy(p => new Random().Next())
+                            .FirstOrDefault();
+
+                    _followPos = new Vector2(point.X, point.Y).To3D();
+                }
+                else
+                {
+                    var point =
+                        new Geometry.Circle(_carry.Position.To2D(), 300).ToPolygon()
+                            .ToClipperPath()
+                            .OrderBy(p => new Random().Next())
+                            .FirstOrDefault();
+
+                    _followPos = new Vector2(point.X, point.Y).To3D();
                 }
             }
         }
