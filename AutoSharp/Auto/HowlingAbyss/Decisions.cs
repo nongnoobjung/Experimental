@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using AutoSharp.Utils;
 using LeagueSharp;
 using LeagueSharp.Common;
@@ -22,8 +18,17 @@ namespace AutoSharp.Auto.HowlingAbyss
 
             if (HealingBuffs.AllyBuffs.FirstOrDefault() == null && closestEnemyBuff == null) return false;
 
+            var buffPos = closestEnemyBuff != null
+                ? closestEnemyBuff.Position.RandomizePosition()
+                : closestAllyBuff.Position.RandomizePosition();
+
+            if (!buffPos.IsValid()) return false;
+
             Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
-            Heroes.Player.IssueOrder(GameObjectOrder.MoveTo, closestEnemyBuff != null ? closestEnemyBuff.Position.RandomizePosition() : closestAllyBuff.Position.RandomizePosition());
+            Heroes.Player.IssueOrder(GameObjectOrder.MoveTo, buffPos);
+
+            if (Heroes.Player.Distance(buffPos) < 75) { HealingBuffs.RemoveBuff(buffPos); }
+
             return true;
         }
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX;
+
 // ReSharper disable InconsistentNaming
 
 namespace AutoSharp.Utils
@@ -42,6 +44,11 @@ namespace AutoSharp.Utils
         {
             if (!sender.Name.Contains("healingBuff")) return;
             _healingBuffs.RemoveAll(hb => hb.NetworkId == sender.NetworkId);
+        }
+
+        public static void RemoveBuff(Vector3 buffPos)
+        {
+            _healingBuffs.RemoveAll(hb => hb.Position == buffPos);
         }
     }
 
