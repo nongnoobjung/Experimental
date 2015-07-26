@@ -9,9 +9,7 @@ namespace AutoSharp.Auto.HowlingAbyss
     {
         internal static bool HealUp()
         {
-            //HEALTH CHECKS
             if (Heroes.Player.HealthPercent > 75) return false;
-            if (Heroes.Player.HealthPercent > 30 && Heroes.Player.CountEnemiesInRange(900) <= Heroes.Player.CountAlliesInRange(900)) return false;
 
             var closestEnemyBuff = HealingBuffs.EnemyBuffs.FirstOrDefault(eb => eb.Position.Distance(Heroes.Player.Position) < 700);
             var closestAllyBuff = HealingBuffs.AllyBuffs.FirstOrDefault();
@@ -22,6 +20,9 @@ namespace AutoSharp.Auto.HowlingAbyss
             //BECAUSE WE CHECKED THAT BUFFS CAN'T BE BOTH NULL; IF ONE OF THEM IS NULL IT MEANS THE OTHER ISN'T.
             // ReSharper disable once PossibleNullReferenceException
             var buffPos = closestEnemyBuff != null ? closestEnemyBuff.Position.RandomizePosition() : closestAllyBuff.Position.RandomizePosition();
+
+            //stay in fight if you can't instantly gratify yourself and u don't really need the buff
+            if (Heroes.Player.HealthPercent > 30 && Heroes.Player.CountEnemiesInRange(900) <= Heroes.Player.CountAlliesInRange(900) && Heroes.Player.Distance(buffPos) > 1000) return false;
 
             //IF BUFFPOS IS VECTOR ZERO OR NOT VALID SOMETHING MUST HAVE GONE WRONG
             if (!buffPos.IsValid()) return false;
