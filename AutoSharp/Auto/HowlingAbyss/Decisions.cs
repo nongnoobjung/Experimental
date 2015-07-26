@@ -37,7 +37,7 @@ namespace AutoSharp.Auto.HowlingAbyss
             var minion = Wizard.GetFarthestMinion();
             var minionPos = minion != null ? minion.Position.Extend(HeadQuarters.AllyHQ.Position, 250).RandomizePosition() : (Heroes.Player.Team == GameObjectTeam.Order ? new Vector2(5483, 5001).RandomizePosition() : new Vector2(7783, 7137).RandomizePosition());
             if ((minionPos.CountEnemiesInRange(1000) != 0 || Heroes.Player.CountEnemiesInRange(1000) != 0) && minionPos.CountAlliesInRange(1000) != 0) return false;
-            if (Heroes.AllyHeroes.OrderByDescending(h => h.Distance(HeadQuarters.AllyHQ)).FirstOrDefault().CountEnemiesInRange(700) != 0) return false;
+            if (Heroes.AllyHeroes.OrderByDescending(h => h.Distance(HeadQuarters.AllyHQ)).FirstOrDefault().CountEnemiesInRange(1400) != 0) return false;
             Program.Orbwalker.SetOrbwalkingPoint(minionPos.RandomizePosition());
             Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.LaneClear;
             return true;
@@ -45,8 +45,8 @@ namespace AutoSharp.Auto.HowlingAbyss
 
         internal static void Fight()
         {
+            Program.Orbwalker.ActiveMode = Heroes.Player.CountEnemiesInRange(Heroes.Player.AttackRange) == 0 ? MyOrbwalker.OrbwalkingMode.Mixed : MyOrbwalker.OrbwalkingMode.Combo;
             Program.Orbwalker.SetOrbwalkingPoint(Positioning.RandomlyChosenMove);
-            Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.Combo;
         }
     }
 }
