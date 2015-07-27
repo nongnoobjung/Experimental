@@ -229,7 +229,7 @@ namespace AutoSharp.Utils
         /// </summary>
         public static float GetMyProjectileSpeed()
         {
-            return Player.IsMeele || Player.ChampionName == "Azir" ? float.MaxValue : Player.BasicAttack.MissileSpeed;
+            return Player.IsMelee || Player.ChampionName == "Azir" ? float.MaxValue : Player.BasicAttack.MissileSpeed;
         }
 
         /// <summary>

@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoSharp.Utils;
+﻿using AutoSharp.Utils;
 using LeagueSharp;
 using LeagueSharp.Common;
+// ReSharper disable InconsistentNaming
 
 namespace AutoSharp.Auto.HowlingAbyss
 {
