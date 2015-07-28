@@ -14,7 +14,7 @@ namespace AutoSharp.Utils
 
         internal static void OnUpdate(EventArgs args)
         {
-            if (Environment.TickCount - LastUpdate < 250) return;
+            if (Environment.TickCount - LastUpdate < 150) return;
             LastUpdate = Environment.TickCount;
 
             ValidPossibleMoves = new List<Vector3>();

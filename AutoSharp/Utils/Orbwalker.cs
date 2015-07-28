@@ -493,7 +493,7 @@ namespace AutoSharp.Utils
                 /* Misc options */
                 var misc = new Menu("Misc", "Misc");
                 misc.AddItem(
-                    new MenuItem("HoldPosRadius", "Hold Position Radius").SetValue(new Slider(70, 0, 250)));
+                    new MenuItem("HoldPosRadius", "Hold Position Radius").SetValue(new Slider(25, 0, 250)));
                 misc.AddItem(new MenuItem("PriorizeFarm", "Prioritize farm").SetShared().SetValue(true));
                 _config.AddSubMenu(misc);
 
