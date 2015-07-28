@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Security.Permissions;
 using AutoSharp.Auto;
 using AutoSharp.Utils;
 using LeagueSharp;
@@ -8,6 +10,7 @@ using LeagueSharp.Common;
 
 namespace AutoSharp
 {
+    [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
     class Program
     {
         public static Menu Config;
@@ -51,9 +54,25 @@ namespace AutoSharp
                     });
         }
 
+
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
         public static void Main(string[] args)
         {
-            CustomEvents.Game.OnGameLoad += init => Init();
+            CustomEvents.Game.OnGameLoad += initArgs => Init();
+            CustomEvents.Game.OnGameEnd += exitArgs => Exit();
+            Game.OnEnd += exit2Args => Exit();
+
+            if (HeadQuarters.AllyHQ == null || HeadQuarters.EnemyHQ == null || HeadQuarters.AllyHQ.Health < 200 || HeadQuarters.EnemyHQ.Health < 200)
+            {
+                Exit();
+            }
+        }
+
+
+        [PermissionSet(SecurityAction.Assert, Unrestricted = true)]
+        public static void Exit()
+        {
+            Process.Start("taskkill /f /im \"LeagueSharp of Legends.exe\"");
         }
     }
 }
