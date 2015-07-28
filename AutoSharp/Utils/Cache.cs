@@ -10,38 +10,6 @@ using SharpDX;
 namespace AutoSharp.Utils
 {
 
-    public static class HealRunes
-    {
-        public static List<GameObject> Runes { get; private set; }
-
-        public static void Load()
-        {
-            Runes = ObjectManager.Get<GameObject>().Where(h => h.Name.Contains("heal_rune")).ToList();
-            GameObject.OnCreate += OnCreate;
-            GameObject.OnDelete += OnDelete;
-        }
-
-        private static void OnCreate(GameObject sender, EventArgs args)
-        {
-            if (!sender.Name.Contains("heal_rune")) return;
-            if (!Runes.Contains(sender))
-            {
-                Runes.Add(sender);
-            }
-        }
-
-        private static void OnDelete(GameObject sender, EventArgs args)
-        {
-            if (!sender.Name.Contains("heal_rune")) return;
-            Runes.RemoveAll(hb => hb.NetworkId == sender.NetworkId);
-        }
-
-        public static void RemoveBuff(Vector3 buffPos)
-        {
-            Runes.RemoveAll(hb => hb.Position == buffPos);
-        }
-    }
-
     public static class HealingBuffs
     {
         private static List<GameObject> _healingBuffs;

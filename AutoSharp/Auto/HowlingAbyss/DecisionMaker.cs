@@ -1,5 +1,6 @@
 ﻿using System;
 using AutoSharp.Utils;
+using LeagueSharp;
 using LeagueSharp.Common;
 
 namespace AutoSharp.Auto.HowlingAbyss
@@ -38,6 +39,12 @@ namespace AutoSharp.Auto.HowlingAbyss
                 return;
             }
             Decisions.Fight();
+
+            if (Program.Orbwalker.GetOrbwalkingPoint().IsZero ||
+                Program.Orbwalker.GetOrbwalkingPoint() == Game.CursorPos)
+            {
+                Decisions.ImSoLonely();
+            }
         }
     }
 }

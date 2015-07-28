@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-using System.Security.Permissions;
-using AutoSharp.Auto.HowlingAbyss;
+﻿using AutoSharp.Auto.HowlingAbyss;
 using AutoSharp.Auto.SummonersRift;
 using LeagueSharp;
 
