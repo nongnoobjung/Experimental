@@ -147,12 +147,12 @@ namespace AutoSharp.Utils
 
         public static List<Obj_AI_Hero> AllyHeroes
         {
-            get { return _heroes.FindAll(h => h.IsAlly && !h.IsDead); }
+            get { return _heroes.FindAll(h => h.IsAlly); }
         }
 
         public static List<Obj_AI_Hero> EnemyHeroes
         {
-            get { return _heroes.FindAll(h => h.IsEnemy && !h.IsDead ); }
+            get { return _heroes.FindAll(h => h.IsEnemy); }
         }
 
         public static void Load()

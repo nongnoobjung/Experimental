@@ -14,14 +14,14 @@ namespace AutoSharp.Utils
 
         internal static void OnUpdate(EventArgs args)
         {
-            if (Environment.TickCount - LastUpdate < 150) return;
+            if (Environment.TickCount - LastUpdate < 200) return;
             LastUpdate = Environment.TickCount;
 
             ValidPossibleMoves = new List<Vector3>();
 
-            var farthestAlly = Heroes.AllyHeroes.OrderByDescending(h => h.Distance(HeadQuarters.AllyHQ)).FirstOrDefault();
+            var farthestAlly = Heroes.AllyHeroes.Where(h=>!h.IsDead).OrderByDescending(h => h.Distance(HeadQuarters.AllyHQ)).FirstOrDefault();
 
-            var teamPoly = (from hero in Heroes.AllyHeroes where hero.Distance(farthestAlly) < (Heroes.Player.IsMelee ? 250 : Heroes.Player.AttackRange) select new Geometry.Circle(hero.Position.To2D(), 250).ToPolygon()).ToList();
+            var teamPoly = (from hero in Heroes.AllyHeroes where !hero.IsDead where hero.Distance(farthestAlly) < (Heroes.Player.IsMelee ? 250 : Heroes.Player.AttackRange) select new Geometry.Circle(hero.Position.To2D(), 250).ToPolygon()).ToList();
 
             teamPoly.ForEach(hp => hp.Points.ForEach(point => ValidPossibleMoves.Add(point.To3D())));
 

@@ -41,6 +41,7 @@ namespace AutoSharp.Auto.HowlingAbyss
         internal static bool Farm()
         {
             var minion = Wizard.GetFarthestMinion();
+            //if (!minion.IsValid) Fight();
             var minionPos = minion != null ? minion.Position.Extend(HeadQuarters.AllyHQ.Position, 250).RandomizePosition() : Wizard.GetFarthestAllyTurret().RandomizePosition();
             //IF THERE ARE ALLIES AROUND US STOP ORBWALKING AROUND THE TURRET LIKE A RETARD
             if (Heroes.Player.Distance(Wizard.GetFarthestAllyTurret()) < 500 && Heroes.Player.CountAlliesInRange(1000) != 0 && Minions.AllyMinions.Count < 3) return false;
@@ -65,7 +66,7 @@ namespace AutoSharp.Auto.HowlingAbyss
 
         internal static bool ImSoLonely()
         {
-            if (Heroes.AllyHeroes.All(h => h.IsDead) || Heroes.AllyHeroes.All(h=>h.InFountain()) || (Heroes.AllyHeroes.All(h => h.Distance(HeadQuarters.AllyHQ) < Heroes.Player.Distance(h))))
+            if (Heroes.AllyHeroes.All(h => h.IsDead) || (Heroes.AllyHeroes.All(h => h.Distance(HeadQuarters.AllyHQ) < Heroes.Player.Distance(h))))
             {
                 Program.Orbwalker.SetOrbwalkingPoint(Wizard.GetFarthestAllyTurret().Position.RandomizePosition());
                 Program.Orbwalker.ActiveMode = Heroes.Player.Distance(Wizard.GetFarthestAllyTurret()) < 500 ? MyOrbwalker.OrbwalkingMode.LaneClear : MyOrbwalker.OrbwalkingMode.LaneClear;
