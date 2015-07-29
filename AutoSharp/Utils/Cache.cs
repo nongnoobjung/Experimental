@@ -67,7 +67,7 @@ namespace AutoSharp.Utils
 
         public static void Load()
         {
-            _turrets = ObjectManager.Get<Obj_AI_Turret>().ToList();
+            Utility.DelayAction.Add(6000, () => _turrets = ObjectManager.Get<Obj_AI_Turret>().ToList());
             GameObject.OnCreate += OnCreate;
             GameObject.OnDelete += OnDelete;
         }
@@ -103,7 +103,7 @@ namespace AutoSharp.Utils
 
         public static void Load()
         {
-            _headQuarters = ObjectManager.Get<Obj_HQ>().ToList();
+            Utility.DelayAction.Add(6000, () => _headQuarters = ObjectManager.Get<Obj_HQ>().ToList());
         }
     }
 
@@ -126,7 +126,7 @@ namespace AutoSharp.Utils
         public static void Load()
         {
             Player = ObjectManager.Player;
-            _heroes = ObjectManager.Get<Obj_AI_Hero>().ToList();
+            Utility.DelayAction.Add(6000, () => _heroes = ObjectManager.Get<Obj_AI_Hero>().ToList());
         }
     }
 

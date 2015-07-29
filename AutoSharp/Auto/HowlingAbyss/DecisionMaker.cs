@@ -2,6 +2,8 @@
 using AutoSharp.Utils;
 using LeagueSharp;
 using LeagueSharp.Common;
+using SharpDX;
+using Color = System.Drawing.Color;
 
 namespace AutoSharp.Auto.HowlingAbyss
 {
@@ -44,6 +46,11 @@ namespace AutoSharp.Auto.HowlingAbyss
                 Program.Orbwalker.GetOrbwalkingPoint() == Game.CursorPos)
             {
                 Decisions.ImSoLonely();
+            }
+
+            if (HeadQuarters.AllyHQ.Health < 300 || HeadQuarters.EnemyHQ.Health < 300)
+            {
+                //Game.Quit();
             }
         }
     }

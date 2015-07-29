@@ -493,7 +493,7 @@ namespace AutoSharp.Utils
                 /* Misc options */
                 var misc = new Menu("Misc", "Misc");
                 misc.AddItem(
-                    new MenuItem("HoldPosRadius", "Hold Position Radius").SetValue(new Slider(30, 0, 250)));
+                    new MenuItem("HoldPosRadius", "Hold Position Radius").SetValue(new Slider(45, 0, 250)));
                 misc.AddItem(new MenuItem("PriorizeFarm", "Prioritize farm").SetShared().SetValue(true));
                 _config.AddSubMenu(misc);
 
@@ -505,7 +505,7 @@ namespace AutoSharp.Utils
                     new MenuItem("ExtraWindup", "Extra windup time").SetValue(new Slider(123, 0, 200)));
                 _config.AddItem(new MenuItem("FarmDelay", "Farm delay").SetShared().SetValue(new Slider(0, 0, 200)));
                 _config.AddItem(
-                    new MenuItem("MovementDelay", "Movement delay").SetValue(new Slider(200, 100, 250)))
+                    new MenuItem("MovementDelay", "Movement delay").SetValue(new Slider(250, 100, 250)))
                     .ValueChanged += (sender, args) => SetMovementDelay(args.GetNewValue<Slider>().Value);
 
 

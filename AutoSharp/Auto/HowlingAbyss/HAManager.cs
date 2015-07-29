@@ -31,7 +31,7 @@ namespace AutoSharp.Auto.HowlingAbyss
             if (sender == Heroes.Player && args.Order == GameObjectOrder.MoveTo)
             {
                 var nearbyEnemyTurret = args.TargetPosition.GetClosestEnemyTurret();
-                if (nearbyEnemyTurret != null && nearbyEnemyTurret.Position.CountNearbyAllyMinions(700) <= 2)
+                if (nearbyEnemyTurret != null && nearbyEnemyTurret.Position.CountNearbyAllyMinions(700) <= 2 && nearbyEnemyTurret.Distance(args.TargetPosition) < 800)
                 {
                     args.Process = false;
                 }
@@ -40,7 +40,7 @@ namespace AutoSharp.Auto.HowlingAbyss
 
         public static void OnDamage(AttackableUnit sender, AttackableUnitDamageEventArgs args)
         {
-            if (sender is Obj_AI_Minion && args.TargetNetworkId == Heroes.Player.NetworkId)
+            if ((sender is Obj_AI_Minion || sender is Obj_AI_Turret) && args.TargetNetworkId == Heroes.Player.NetworkId)
             {
                 if (Heroes.Player.Position.CountNearbyAllies(1000) <
                     Heroes.Player.Position.CountNearbyEnemies(1000) ||

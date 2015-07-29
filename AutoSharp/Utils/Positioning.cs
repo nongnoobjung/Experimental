@@ -21,7 +21,7 @@ namespace AutoSharp.Utils
 
             var farthestAlly = Heroes.AllyHeroes.OrderByDescending(h => h.Distance(HeadQuarters.AllyHQ)).FirstOrDefault();
 
-            var team = Heroes.AllyHeroes.Where(h => !h.IsDead && h.Distance(farthestAlly) < Heroes.Player.AttackRange).ToList();
+            var team = Heroes.AllyHeroes.Where(h => !h.IsDead && h.Distance(farthestAlly) < 350).ToList();
 
             var teamPoly = team.Select(hero => new Geometry.Circle(hero.Position.To2D(), 250).ToPolygon()).ToList();
 
@@ -36,7 +36,7 @@ namespace AutoSharp.Utils
                     }
                 }
             }
-            RandomlyChosenMove = ValidPossibleMoves.OrderBy(v => Heroes.Player.IsMelee ? new Random(Environment.TickCount).Next(0, 42) : v.Distance(HeadQuarters.AllyHQ.Position)).FirstOrDefault();
+            RandomlyChosenMove = ValidPossibleMoves.OrderBy(v => v.Distance(HeadQuarters.AllyHQ.Position)).FirstOrDefault();
         }
     }
 }

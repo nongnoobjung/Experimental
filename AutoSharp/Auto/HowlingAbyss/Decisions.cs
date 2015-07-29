@@ -22,17 +22,17 @@ namespace AutoSharp.Auto.HowlingAbyss
             var buffPos = closestEnemyBuff != null ? closestEnemyBuff.Position.RandomizePosition() : closestAllyBuff.Position.RandomizePosition();
 
             //stay in fight if you can't instantly gratify yourself and u don't really need the buff
-            if (Heroes.Player.HealthPercent > 30 && Heroes.Player.CountEnemiesInRange(900) <= Heroes.Player.CountAlliesInRange(900) && Heroes.Player.Distance(buffPos) > 1000) return false;
+            if (Heroes.Player.HealthPercent > 45 && Heroes.Player.CountEnemiesInRange(900) <= Heroes.Player.CountAlliesInRange(900) && Heroes.Player.Distance(buffPos) > 1000) return false;
 
             //IF BUFFPOS IS VECTOR ZERO OR NOT VALID SOMETHING MUST HAVE GONE WRONG
             if (!buffPos.IsValid()) return false;
 
+            //ONDELETE IS SLOWPOKE's HOME
+            if (Heroes.Player.Distance(buffPos) < 75) { HealingBuffs.RemoveBuff(buffPos); }
+
             //MOVE TO BUFFPOS
             Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
             Heroes.Player.IssueOrder(GameObjectOrder.MoveTo, buffPos);
-
-            //ONDELETE IS SLOWPOKE's HOME
-            if (Heroes.Player.Distance(buffPos) < 75) { HealingBuffs.RemoveBuff(buffPos); }
 
             //STOP EVERYTHING ELSE TO DO THIS
             return true;
@@ -59,7 +59,7 @@ namespace AutoSharp.Auto.HowlingAbyss
 
         internal static void Fight()
         {
-            Program.Orbwalker.ActiveMode = Heroes.Player.CountEnemiesInRange(Heroes.Player.AttackRange) == 0 ? MyOrbwalker.OrbwalkingMode.Mixed : MyOrbwalker.OrbwalkingMode.Combo;
+            Program.Orbwalker.ActiveMode = Heroes.Player.CountEnemiesInRange(Heroes.Player.AttackRange) == 0 ? MyOrbwalker.OrbwalkingMode.LaneClear : MyOrbwalker.OrbwalkingMode.Combo;
             Program.Orbwalker.SetOrbwalkingPoint(Positioning.RandomlyChosenMove);
         }
 
