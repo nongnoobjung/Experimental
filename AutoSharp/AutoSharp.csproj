@@ -81,7 +81,6 @@
     <Compile Include="Auto\HowlingAbyss\DecisionMaker.cs" />
     <Compile Include="Auto\HowlingAbyss\Decisions.cs" />
     <Compile Include="Auto\HowlingAbyss\HAManager.cs" />
-    <Compile Include="Auto\HowlingAbyss\Shopping.cs" />
     <Compile Include="Auto\SummonersRift\MyTeam.cs" />
     <Compile Include="Auto\SummonersRift\RoleSwitcher.cs" />
     <Compile Include="Auto\SummonersRift\Map.cs" />

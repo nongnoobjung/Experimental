@@ -14,12 +14,20 @@ namespace AutoSharp.Auto.HowlingAbyss
             var closestEnemyBuff = HealingBuffs.EnemyBuffs.FirstOrDefault(eb => eb.Position.Distance(Heroes.Player.Position) < 700);
             var closestAllyBuff = HealingBuffs.AllyBuffs.FirstOrDefault();
 
+
             //BUFF EXISTANCE CHECKS;
             if (HealingBuffs.AllyBuffs.FirstOrDefault() == null && closestEnemyBuff == null) return false;
 
             //BECAUSE WE CHECKED THAT BUFFS CAN'T BE BOTH NULL; IF ONE OF THEM IS NULL IT MEANS THE OTHER ISN'T.
             // ReSharper disable once PossibleNullReferenceException
             var buffPos = closestEnemyBuff != null ? closestEnemyBuff.Position.RandomizePosition() : closestAllyBuff.Position.RandomizePosition();
+
+            if (Heroes.Player.Position.Distance(buffPos) <= 500)
+            {
+                Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
+                Heroes.Player.IssueOrder(GameObjectOrder.MoveTo, buffPos);
+                return true;
+            }
 
             //stay in fight if you can't instantly gratify yourself and u don't really need the buff
             if (Heroes.Player.HealthPercent > 45 && Heroes.Player.CountEnemiesInRange(900) <= Heroes.Player.CountAlliesInRange(900) && Heroes.Player.Distance(buffPos) > 1000) return false;
