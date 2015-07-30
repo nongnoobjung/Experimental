@@ -21,6 +21,9 @@ namespace AutoSharp.Utils
 
             var farthestAlly = Heroes.AllyHeroes.OrderByDescending(h => h.Distance(HeadQuarters.AllyHQ)).FirstOrDefault();
 
+            ValidPossibleMoves.Add(farthestAlly.Position.RandomizePosition()); //initialize the vectorlist with a position known to exist,
+                                                                               //so it doesn't follow the mouse anymore
+
             var team = Heroes.AllyHeroes.Where(h => !h.IsDead && h.Distance(farthestAlly) < 350).ToList();
 
             var teamPoly = team.Select(hero => new Geometry.Circle(hero.Position.To2D(), 250).ToPolygon()).ToList();
