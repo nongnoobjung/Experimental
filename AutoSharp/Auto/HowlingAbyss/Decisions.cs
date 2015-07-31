@@ -11,12 +11,12 @@ namespace AutoSharp.Auto.HowlingAbyss
         {
             if (Heroes.Player.HealthPercent >= 75) return false;
 
-            var closestEnemyBuff = HealingBuffs.EnemyBuffs.FirstOrDefault(eb => eb.Position.Distance(Heroes.Player.Position) < 800 && eb.Position.CountEnemiesInRange(600) == 0 || eb.Position.CountEnemiesInRange(600) < eb.Position.CountAlliesInRange(600));
-            var closestAllyBuff = HealingBuffs.AllyBuffs.FirstOrDefault();
+            var closestEnemyBuff = HealingBuffs.EnemyBuffs.FirstOrDefault(eb => eb.IsVisible && eb.IsValid && eb.Position.Distance(Heroes.Player.Position) < 800 && (eb.Position.CountEnemiesInRange(600) == 0 || eb.Position.CountEnemiesInRange(600) < eb.Position.CountAlliesInRange(600)));
+            var closestAllyBuff = HealingBuffs.AllyBuffs.FirstOrDefault(ab => ab.IsVisible && ab.IsValid);
 
 
             //BUFF EXISTANCE CHECKS;
-            if ((closestAllyBuff == null && closestEnemyBuff == null) || (!closestAllyBuff.IsValid && !closestEnemyBuff.IsValid) || (!closestAllyBuff.IsVisible && !closestEnemyBuff.IsVisible)) return false;
+            if ((closestAllyBuff == null && closestEnemyBuff == null)) return false;
 
             //BECAUSE WE CHECKED THAT BUFFS CAN'T BE BOTH NULL; IF ONE OF THEM IS NULL IT MEANS THE OTHER ISN'T.
             // ReSharper disable once PossibleNullReferenceException
