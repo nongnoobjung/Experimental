@@ -9,9 +9,9 @@ namespace AutoSharp.Auto.HowlingAbyss
     {
         internal static bool HealUp()
         {
-            if (Heroes.Player.HealthPercent > 75) return false;
+            if (Heroes.Player.HealthPercent >= 75) return false;
 
-            var closestEnemyBuff = HealingBuffs.EnemyBuffs.FirstOrDefault(eb => eb.Position.Distance(Heroes.Player.Position) < 700);
+            var closestEnemyBuff = HealingBuffs.EnemyBuffs.FirstOrDefault(eb => eb.Position.Distance(Heroes.Player.Position) < 800 && eb.Position.CountEnemiesInRange(600) == 0 || eb.Position.CountEnemiesInRange(600) < eb.Position.CountAlliesInRange(600));
             var closestAllyBuff = HealingBuffs.AllyBuffs.FirstOrDefault();
 
 
@@ -22,7 +22,7 @@ namespace AutoSharp.Auto.HowlingAbyss
             // ReSharper disable once PossibleNullReferenceException
             var buffPos = closestEnemyBuff != null ? closestEnemyBuff.Position.RandomizePosition() : closestAllyBuff.Position.RandomizePosition();
 
-            if (Heroes.Player.Position.Distance(buffPos) <= 500)
+            if (Heroes.Player.Position.Distance(buffPos) <= 800)
             {
                 Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
                 Heroes.Player.IssueOrder(GameObjectOrder.MoveTo, buffPos);
@@ -30,17 +30,17 @@ namespace AutoSharp.Auto.HowlingAbyss
             }
 
             //stay in fight if you can't instantly gratify yourself and u don't really need the buff
-            if (Heroes.Player.HealthPercent > 45 && Heroes.Player.CountEnemiesInRange(900) <= Heroes.Player.CountAlliesInRange(900) && Heroes.Player.Distance(buffPos) > 1000) return false;
+            if (Heroes.Player.HealthPercent >= 45 && Heroes.Player.CountEnemiesInRange(900) <= Heroes.Player.CountAlliesInRange(900) && Heroes.Player.Distance(buffPos) > 1000) return false;
 
             //IF BUFFPOS IS VECTOR ZERO OR NOT VALID SOMETHING MUST HAVE GONE WRONG
             if (!buffPos.IsValid()) return false;
 
-            //ONDELETE IS SLOWPOKE's HOME
-            if (Heroes.Player.Distance(buffPos) < 75) { HealingBuffs.RemoveBuff(buffPos); }
-
             //MOVE TO BUFFPOS
             Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
             Heroes.Player.IssueOrder(GameObjectOrder.MoveTo, buffPos);
+
+            //ONDELETE IS SLOWPOKE's HOME
+            if (Heroes.Player.Distance(buffPos) < 75) HealingBuffs.RemoveBuff(buffPos);
 
             //STOP EVERYTHING ELSE TO DO THIS
             return true;

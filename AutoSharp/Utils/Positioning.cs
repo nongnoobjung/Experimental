@@ -24,9 +24,9 @@ namespace AutoSharp.Utils
             ValidPossibleMoves.Add(farthestAlly.Position.RandomizePosition()); //initialize the vectorlist with a position known to exist,
                                                                                //so it doesn't follow the mouse anymore
 
-            var team = Heroes.AllyHeroes.Where(h => !h.IsDead && h.Distance(farthestAlly) < 350).ToList();
+            var team = Heroes.AllyHeroes.Where(h => !h.IsDead && h.Distance(farthestAlly) < 300).ToList();
 
-            var teamPoly = team.Select(hero => new Geometry.Circle(hero.Position.To2D(), 250).ToPolygon()).ToList();
+            var teamPoly = team.Select(hero => new Geometry.Circle(hero.Position.To2D(), 200).ToPolygon()).ToList();
 
             foreach (var hp in teamPoly)
             {

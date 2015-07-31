@@ -48,7 +48,7 @@ namespace AutoSharp.Utils
 
         public static void RemoveBuff(Vector3 buffPos)
         {
-            _healingBuffs.RemoveAll(hb => hb.Position == buffPos);
+            _healingBuffs.RemoveAll(hb => hb.Position.Distance(buffPos) < 100);
         }
     }
 
