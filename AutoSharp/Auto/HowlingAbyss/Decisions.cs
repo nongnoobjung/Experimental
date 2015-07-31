@@ -9,6 +9,12 @@ namespace AutoSharp.Auto.HowlingAbyss
     {
         internal static bool HealUp()
         {
+            if (Heroes.Player.IsDead)
+            {
+                Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
+                return true;
+            }
+
             if (Heroes.Player.HealthPercent >= 75) return false;
 
             var closestEnemyBuff = HealingBuffs.EnemyBuffs.FirstOrDefault(eb => eb.IsVisible && eb.IsValid && eb.Position.Distance(Heroes.Player.Position) < 800 && (eb.Position.CountEnemiesInRange(600) == 0 || eb.Position.CountEnemiesInRange(600) < eb.Position.CountAlliesInRange(600)));
