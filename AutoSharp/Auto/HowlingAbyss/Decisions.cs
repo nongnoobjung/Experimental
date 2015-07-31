@@ -16,7 +16,7 @@ namespace AutoSharp.Auto.HowlingAbyss
 
 
             //BUFF EXISTANCE CHECKS;
-            if (HealingBuffs.AllyBuffs.FirstOrDefault() == null && closestEnemyBuff == null) return false;
+            if ((closestAllyBuff == null && closestEnemyBuff == null) || (!closestAllyBuff.IsValid && !closestEnemyBuff.IsValid) || (!closestAllyBuff.IsVisible && !closestEnemyBuff.IsVisible)) return false;
 
             //BECAUSE WE CHECKED THAT BUFFS CAN'T BE BOTH NULL; IF ONE OF THEM IS NULL IT MEANS THE OTHER ISN'T.
             // ReSharper disable once PossibleNullReferenceException
