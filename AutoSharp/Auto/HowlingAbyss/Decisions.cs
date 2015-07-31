@@ -20,9 +20,9 @@ namespace AutoSharp.Auto.HowlingAbyss
 
             //BECAUSE WE CHECKED THAT BUFFS CAN'T BE BOTH NULL; IF ONE OF THEM IS NULL IT MEANS THE OTHER ISN'T.
             // ReSharper disable once PossibleNullReferenceException
-            var buffPos = closestEnemyBuff != null ? closestEnemyBuff.Position.RandomizePosition() : closestAllyBuff.Position.RandomizePosition();
+            var buffPos = closestEnemyBuff != null ? closestEnemyBuff.Position.Randomize(0, 15) : closestAllyBuff.Position.Randomize(0,15);
 
-            if (Heroes.Player.Position.Distance(buffPos) <= 800)
+            if (Heroes.Player.Position.Distance(buffPos) <= 800 && (Heroes.Player.CountEnemiesInRange(800) == 0 || Heroes.Player.CountEnemiesInRange(800) < Heroes.Player.CountAlliesInRange(800)))
             {
                 Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
                 Heroes.Player.IssueOrder(GameObjectOrder.MoveTo, buffPos);
