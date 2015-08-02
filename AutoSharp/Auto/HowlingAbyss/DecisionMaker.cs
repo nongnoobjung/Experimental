@@ -11,7 +11,7 @@ namespace AutoSharp.Auto.HowlingAbyss
         private static int _lastUpdate = 0;
         public static void OnUpdate(EventArgs args)
         {
-            if (Environment.TickCount - _lastUpdate < 100) return;
+            if (Environment.TickCount - _lastUpdate < 150) return;
             _lastUpdate = Environment.TickCount;
 
             var player = Heroes.Player;

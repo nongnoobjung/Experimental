@@ -16,12 +16,12 @@ namespace AutoSharp.Utils
 
         public static List<GameObject> AllyBuffs
         {
-            get { return _healingBuffs.FindAll(hb => LeagueSharp.Common.Geometry.Distance(hb.Position, HeadQuarters.AllyHQ.Position) < 5400).OrderBy(buff => buff.Position.Distance(Heroes.Player.Position)).ToList(); }
+            get { return _healingBuffs.FindAll(hb => hb.IsValid && LeagueSharp.Common.Geometry.Distance(hb.Position, HeadQuarters.AllyHQ.Position) < 5400).OrderBy(buff => buff.Position.Distance(Heroes.Player.Position)).ToList(); }
         }
 
         public static List<GameObject> EnemyBuffs
         {
-            get { return _healingBuffs.FindAll(hb => LeagueSharp.Common.Geometry.Distance(hb.Position, HeadQuarters.AllyHQ.Position) > 5400); }
+            get { return _healingBuffs.FindAll(hb => hb.IsValid && LeagueSharp.Common.Geometry.Distance(hb.Position, HeadQuarters.AllyHQ.Position) > 5400); }
         }
 
         public static void Load()
@@ -58,11 +58,11 @@ namespace AutoSharp.Utils
 
         public static List<Obj_AI_Turret> AllyTurrets
         {
-            get { return _turrets.FindAll(t => t.IsAlly); }
+            get { return _turrets.FindAll(t => t.IsValid<Obj_AI_Turret>() && !t.IsDead && t.IsAlly); }
         }
         public static List<Obj_AI_Turret> EnemyTurrets
         {
-            get { return _turrets.FindAll(t => t.IsEnemy); }
+            get { return _turrets.FindAll(t => t.IsValid<Obj_AI_Turret>() && !t.IsDead && t.IsEnemy); }
         }
 
         public static void Load()
@@ -94,11 +94,11 @@ namespace AutoSharp.Utils
 
         public static Obj_HQ AllyHQ
         {
-            get { return _headQuarters.FirstOrDefault(t => t.IsAlly); }
+            get { return _headQuarters.FirstOrDefault(t => t.IsValid<Obj_HQ>() && t.IsAlly); }
         }
         public static Obj_HQ EnemyHQ
         {
-            get { return _headQuarters.FirstOrDefault(t => t.IsEnemy); }
+            get { return _headQuarters.FirstOrDefault(t => t.IsValid<Obj_HQ>() && t.IsEnemy); }
         }
 
         public static void Load()
@@ -115,12 +115,12 @@ namespace AutoSharp.Utils
 
         public static List<Obj_AI_Hero> AllyHeroes
         {
-            get { return _heroes.FindAll(h => h.IsAlly); }
+            get { return _heroes.FindAll(h => h.IsValid<Obj_AI_Hero>() && h.IsAlly); }
         }
 
         public static List<Obj_AI_Hero> EnemyHeroes
         {
-            get { return _heroes.FindAll(h => h.IsEnemy); }
+            get { return _heroes.FindAll(h => h.IsValid<Obj_AI_Hero>() && h.IsEnemy); }
         }
 
         public static void Load()
@@ -138,11 +138,11 @@ namespace AutoSharp.Utils
 
         public static List<Obj_AI_Minion> AllyMinions
         {
-            get { return _minions.FindAll(t => t.IsAlly); }
+            get { return _minions.FindAll(t => t.IsValid<Obj_AI_Minion>() && !t.IsDead && t.IsAlly); }
         }
         public static List<Obj_AI_Minion> EnemyMinions
         {
-            get { return _minions.FindAll(t => t.IsValidTarget()); }
+            get { return _minions.FindAll(t => t.IsValid<Obj_AI_Minion>() && !t.IsDead && t.IsValidTarget()); }
         }
 
         public static void Load()
