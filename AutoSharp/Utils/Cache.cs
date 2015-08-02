@@ -13,6 +13,7 @@ namespace AutoSharp.Utils
     public static class HealingBuffs
     {
         private static List<GameObject> _healingBuffs;
+        private static int LastUpdate = 0;
 
         public static List<GameObject> AllyBuffs
         {
@@ -29,12 +30,24 @@ namespace AutoSharp.Utils
             _healingBuffs = ObjectManager.Get<GameObject>().Where(h=>h.Name.Contains("healingBuff")).ToList();
             GameObject.OnCreate += OnCreate;
             GameObject.OnDelete += OnDelete;
+            Game.OnUpdate += UpdateBuffs;
+        }
+
+        private static void UpdateBuffs(EventArgs args)
+        {
+            if (Environment.TickCount > LastUpdate + 1000)
+            {
+                foreach (var buff in _healingBuffs)
+                {
+                    if (Heroes.Player.ServerPosition.Distance(buff.Position) < 80) _healingBuffs.Remove(buff);
+                }
+                LastUpdate = Environment.TickCount;
+            }
         }
 
         private static void OnCreate(GameObject sender, EventArgs args)
         {
-            if (!sender.Name.Contains("healingBuff")) return;
-            if (!_healingBuffs.Contains(sender))
+            if (sender.Name.Contains("healingBuff"))
             {
                 _healingBuffs.Add(sender);
             }
@@ -42,13 +55,10 @@ namespace AutoSharp.Utils
 
         private static void OnDelete(GameObject sender, EventArgs args)
         {
-            if (!sender.Name.Contains("healingBuff")) return;
-            _healingBuffs.RemoveAll(hb => hb.NetworkId == sender.NetworkId);
-        }
-
-        public static void RemoveBuff(Vector3 buffPos)
-        {
-            _healingBuffs.RemoveAll(hb => hb.Position.Distance(buffPos) < 100);
+            foreach (var buff in _healingBuffs)
+            {
+                if (buff.NetworkId == sender.NetworkId) _healingBuffs.Remove(buff);
+            }
         }
     }
 
@@ -68,23 +78,21 @@ namespace AutoSharp.Utils
         public static void Load()
         {
             Utility.DelayAction.Add(6000, () => _turrets = ObjectManager.Get<Obj_AI_Turret>().ToList());
-            GameObject.OnCreate += OnCreate;
-            GameObject.OnDelete += OnDelete;
+            Obj_AI_Turret.OnCreate += OnCreate;
+            Obj_AI_Turret.OnDelete += OnDelete;
         }
 
         private static void OnCreate(GameObject sender, EventArgs args)
         {
-            if (sender.Type != GameObjectType.obj_AI_Turret) return;
-            if (!_turrets.Contains(sender))
-            {
-                _turrets.Add(sender as Obj_AI_Turret);
-            }
+            _turrets.Add((Obj_AI_Turret)sender);
         }
 
         private static void OnDelete(GameObject sender, EventArgs args)
         {
-            if (sender.Type != GameObjectType.obj_AI_Turret) return;
-            _turrets.RemoveAll(t => t.NetworkId == sender.NetworkId);
+            foreach (var turret in _turrets)
+            {
+                if (turret.NetworkId == sender.NetworkId) _turrets.Remove(turret);
+            }
         }
     }
 
@@ -134,7 +142,6 @@ namespace AutoSharp.Utils
     {
         
         private static List<Obj_AI_Minion> _minions;
-        private static int _lastUpdate;
 
         public static List<Obj_AI_Minion> AllyMinions
         {
@@ -147,17 +154,24 @@ namespace AutoSharp.Utils
 
         public static void Load()
         {
-            _minions = ObjectManager.Get<Obj_AI_Minion>().ToList();
-            Game.OnUpdate += OnUpdate;
+            _minions = new List<Obj_AI_Minion>();
+            Obj_AI_Minion.OnCreate += OnCreate;
+            Obj_AI_Minion.OnDelete += OnDelete;
         }
 
-        public static void OnUpdate(EventArgs args)
+        private static void OnDelete(GameObject sender, EventArgs args)
         {
-            if (Environment.TickCount - _lastUpdate < 500) return;
-            _lastUpdate = Environment.TickCount;
-
-            _minions = ObjectManager.Get<Obj_AI_Minion>().Where(m => !m.IsDead && m.IsValid && m.IsVisible).ToList();
+            foreach (var minion in _minions)
+            {
+                if (minion.NetworkId == sender.NetworkId) _minions.Remove(minion);
+            }
         }
+
+        private static void OnCreate(GameObject sender, EventArgs args)
+        {
+            _minions.Add((Obj_AI_Minion)sender);
+        }
+
     }
 
     public static class Cache

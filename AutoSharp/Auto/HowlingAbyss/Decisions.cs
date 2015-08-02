@@ -30,8 +30,7 @@ namespace AutoSharp.Auto.HowlingAbyss
 
             if (Heroes.Player.Position.Distance(buffPos) <= 800 && (Heroes.Player.CountEnemiesInRange(800) == 0 || Heroes.Player.CountEnemiesInRange(800) < Heroes.Player.CountAlliesInRange(800)))
             {
-                Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
-                Heroes.Player.IssueOrder(GameObjectOrder.MoveTo, buffPos);
+                Program.Orbwalker.SetOrbwalkingPoint(buffPos);
                 return true;
             }
 
@@ -42,11 +41,7 @@ namespace AutoSharp.Auto.HowlingAbyss
             if (!buffPos.IsValid()) return false;
 
             //MOVE TO BUFFPOS
-            Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
-            Heroes.Player.IssueOrder(GameObjectOrder.MoveTo, buffPos);
-
-            //ONDELETE IS SLOWPOKE's HOME
-            if (Heroes.Player.Distance(buffPos) < 75) HealingBuffs.RemoveBuff(buffPos);
+            Program.Orbwalker.SetOrbwalkingPoint(buffPos);
 
             //STOP EVERYTHING ELSE TO DO THIS
             return true;
