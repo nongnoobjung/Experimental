@@ -53,7 +53,7 @@ namespace AutoSharp.Auto.HowlingAbyss.ARAMShopAI
         {
             "Ahri", "Anivia", "Annie", "Azir", "Brand", "FiddleSticks", "Heimerdinger",
             "Karma", "Karthus", "Kassadin", "KogMaw", "Leblanc", "Lissandra", "Lulu", "Lux", "Malzahar", "Morgana",
-            "Nidalee", "Orianna", "Swain", "Syndra", "Veigar", "Velkoz", "Viktor", "Xerath", "Ziggs", "Zilean", "Zyra"
+            "Nidalee", "Orianna", "Swain", "Syndra", "Veigar", "Velkoz", "Viktor", "Xerath", "Ziggs", "Zilean", "Zyra", "TwistedFate"
         };
         public static string[] Mage =
         {
@@ -72,7 +72,7 @@ namespace AutoSharp.Auto.HowlingAbyss.ARAMShopAI
             "Berserker's Greaves", "Infinity Edge", "Last Whisper", "Banshee's Veil"
         };
 
-        public static string[] UtilitySupportsNames = { "Bard", "Janna", "Nami", "Nunu", "Sona", "Soraka" };
+        public static string[] UtilitySupportsNames = { "Bard", "Janna", "Nami", "Nunu", "Sona", "Soraka", "TahmKench" };
         public static string[] UtilitySupport =
         {
             "Frost Queen's Claim", "Mikael's Crucible",
