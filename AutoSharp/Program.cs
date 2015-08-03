@@ -14,6 +14,7 @@ namespace AutoSharp
 {
     class Program
     {
+        public static Utility.Map.MapType Map;
         public static Menu Config;
         public static MyOrbwalker.Orbwalker Orbwalker;
         public static List<Render.Line> lstLines = new List<Render.Line>();
@@ -44,7 +45,14 @@ namespace AutoSharp
             randomizer.AddItem(new MenuItem("autosharp.randomizer.auto", "Auto-Adjust? (ALPHA)").SetValue(true));
 
             new PluginLoader();
-            CustomEvents.Game.OnGameLoad += args => { Cache.Load(); Game.OnUpdate += Positioning.OnUpdate; Autoplay.Load(); };
+            CustomEvents.Game.OnGameLoad += args =>
+            {
+                Map = Utility.Map.GetMap().Type; 
+                Cache.Load(); 
+                Game.OnUpdate += Positioning.OnUpdate; 
+                Autoplay.Load();
+                Obj_AI_Base.OnIssueOrder += AntiShrooms;
+            };
 
 
             Orbwalker = new MyOrbwalker.Orbwalker(orbwalker);
@@ -56,6 +64,14 @@ namespace AutoSharp
                         LeagueSharp.Common.AutoLevel.Enable();
                         Console.WriteLine("AutoLevel Init Success!");
                     });
+        }
+
+        private static void AntiShrooms(Obj_AI_Base sender, GameObjectIssueOrderEventArgs args)
+        {
+            if (sender.IsMe && args.Order == GameObjectOrder.MoveTo)
+            {
+                if (Traps.EnemyTraps.Any(t => t.Position.Distance(args.TargetPosition) < 125)) { args.Process = false; }
+            }
         }
 
         public static void Main(string[] args)

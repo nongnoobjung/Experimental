@@ -3,12 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-
 // ReSharper disable InconsistentNaming
 
 namespace AutoSharp.Utils
 {
+    public static class Traps
+    {
+        private static List<GameObject> _traps;
+
+        private static List<string> _trapNames = new List<string> { "teemo", "shroom", "trap", "mine", "ziggse_red" };
+
+        public static List<GameObject> EnemyTraps
+        {
+            get { return _traps.FindAll(t => t.IsValid && t.IsEnemy); }
+        }
+
+        public static void OnCreate(GameObject sender, EventArgs args)
+        {
+            foreach (var trapName in _trapNames)
+            {
+                if (sender.Name.ToLower().Contains(trapName)) _traps.Add(sender);
+            }
+        }
+
+        public static void OnDelete(GameObject sender, EventArgs args)
+        {
+            foreach (var trap in _traps)
+            {
+                if (trap.NetworkId == sender.NetworkId) _traps.Remove(trap);
+            }
+        }
+
+        public static void Load()
+        {
+            _traps = new List<GameObject>();
+            GameObject.OnCreate += OnCreate;
+            GameObject.OnDelete += OnDelete;
+        }
+    }
 
     public static class HealingBuffs
     {
