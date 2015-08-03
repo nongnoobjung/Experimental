@@ -45,7 +45,6 @@ namespace AutoSharp
 
             new PluginLoader();
             CustomEvents.Game.OnGameLoad += args => { Cache.Load(); Game.OnUpdate += Positioning.OnUpdate; Autoplay.Load(); };
-            Game.OnEnd += args => { Game.Quit(); };
 
 
             Orbwalker = new MyOrbwalker.Orbwalker(orbwalker);

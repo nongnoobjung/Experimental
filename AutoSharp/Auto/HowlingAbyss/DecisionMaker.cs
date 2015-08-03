@@ -50,11 +50,6 @@ namespace AutoSharp.Auto.HowlingAbyss
             {
                 Decisions.ImSoLonely();
             }
-
-            if (HeadQuarters.AllyHQ.Health < 300 || HeadQuarters.EnemyHQ.Health < 300)
-            {
-                Game.Quit();
-            }
         }
     }
 }
