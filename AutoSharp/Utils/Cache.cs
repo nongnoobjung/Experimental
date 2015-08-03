@@ -84,7 +84,7 @@ namespace AutoSharp.Utils
 
         private static void OnCreate(GameObject sender, EventArgs args)
         {
-            _turrets.Add((Obj_AI_Turret)sender);
+            if (sender.IsValid<Obj_AI_Turret>()) _turrets.Add((Obj_AI_Turret)sender);
         }
 
         private static void OnDelete(GameObject sender, EventArgs args)
@@ -169,7 +169,7 @@ namespace AutoSharp.Utils
 
         private static void OnCreate(GameObject sender, EventArgs args)
         {
-            _minions.Add((Obj_AI_Minion)sender);
+            if (sender.IsValid<Obj_AI_Minion>()) _minions.Add((Obj_AI_Minion)sender);
         }
 
     }

@@ -48,7 +48,7 @@ namespace AutoSharp.Auto.HowlingAbyss.ARAMShopAI
             response.Close();
             return responseFromServer;
         }
-        public static string[] List = new string[6];
+        public static string[] List = new[] {"","","","","",""};
         public static string[] MageNames =
         {
             "Ahri", "Anivia", "Annie", "Azir", "Brand", "FiddleSticks", "Heimerdinger",
@@ -225,6 +225,8 @@ namespace AutoSharp.Auto.HowlingAbyss.ARAMShopAI
                 List = AdUtility;
             if (HybridNames.Contains(name))
                 List = Hybrid;
+            if (List[1] == "")
+                List = TankSupport;
             Queue = ShoppingQueue();
             AlterInventory();
 
