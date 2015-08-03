@@ -53,7 +53,7 @@ namespace AutoSharp.Auto.HowlingAbyss.ARAMShopAI
         {
             "Ahri", "Anivia", "Annie", "Azir", "Brand", "FiddleSticks", "Heimerdinger",
             "Karma", "Karthus", "Kassadin", "KogMaw", "Leblanc", "Lissandra", "Lulu", "Lux", "Malzahar", "Morgana",
-            "Nidalee", "Orianna", "Swain", "Syndra", "Veigar", "Velkoz", "Viktor", "Xerath", "Ziggs", "Zilean", "Zyra", "TwistedFate"
+            "Nidalee", "Orianna", "Swain", "Syndra", "Veigar", "Velkoz", "Viktor", "Xerath", "Ziggs", "Zilean", "Zyra", "TwistedFate", "Ekko"
         };
         public static string[] Mage =
         {
