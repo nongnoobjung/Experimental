@@ -5,8 +5,6 @@ using AutoSharp.Auto;
 using AutoSharp.Utils;
 using LeagueSharp;
 using LeagueSharp.Common;
-using SharpDX;
-using Color = System.Drawing.Color;
 
 // ReSharper disable ObjectCreationAsStatement
 
@@ -17,7 +15,7 @@ namespace AutoSharp
         public static Utility.Map.MapType Map;
         public static Menu Config;
         public static MyOrbwalker.Orbwalker Orbwalker;
-        public static List<Render.Line> lstLines = new List<Render.Line>();
+        private static int _lastMovementTick = 0;
 
         public static void Init()
         {
@@ -36,6 +34,7 @@ namespace AutoSharp
                     }
                 };
             Config.AddItem(new MenuItem("autosharp.playmode", "Play Mode").SetValue(new StringList(new[] {"AUTOSHARP", "AIM"})));
+            Config.AddItem(new MenuItem("autosharp.humanizer", "Humanize Movement by ").SetValue(new Slider(175, 125, 350)));
             var options = Config.AddSubMenu(new Menu("Options: ", "autosharp.options"));
             options.AddItem(new MenuItem("autosharp.options.healup", "Take Heals?").SetValue(true));
             var orbwalker = Config.AddSubMenu(new Menu("Orbwalker", "autosharp.orbwalker"));
@@ -71,7 +70,16 @@ namespace AutoSharp
         {
             if (sender.IsMe && args.Order == GameObjectOrder.MoveTo)
             {
+                //Humanizer
+                if (Environment.TickCount - _lastMovementTick <
+                    Config.Item("autosharp.humanizer").GetValue<Slider>().Value)
+                {
+                    args.Process = false;
+                }
+                //AntiShrooms
                 if (Traps.EnemyTraps.Any(t => t.Position.Distance(args.TargetPosition) < 125)) { args.Process = false; }
+                //The movement will occur
+                _lastMovementTick = Environment.TickCount;
             }
         }
 
