@@ -35,6 +35,7 @@ namespace AutoSharp
                         Orbwalker.SetOrbwalkingPoint(Game.CursorPos);
                     }
                 };
+            Config.AddItem(new MenuItem("autosharp.playmode", "Play Mode").SetValue(new StringList(new[] {"AUTOSHARP", "AIM"})));
             var options = Config.AddSubMenu(new Menu("Options: ", "autosharp.options"));
             options.AddItem(new MenuItem("autosharp.options.healup", "Take Heals?").SetValue(true));
             var orbwalker = Config.AddSubMenu(new Menu("Orbwalker", "autosharp.orbwalker"));
