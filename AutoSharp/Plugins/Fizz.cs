@@ -36,7 +36,7 @@ namespace AutoSharp.Plugins
             {
                 if (target.IsValidTarget(Q.Range) && Q.IsReady())
                 {
-                    Q.CastOnUnit(target);
+                    Q.Cast(target);
                     return;
                 }
                 //castItems(target);
@@ -46,7 +46,7 @@ namespace AutoSharp.Plugins
                 }
                 if (target.IsValidTarget(Orbwalking.GetRealAutoAttackRange(Player)) && W.IsReady())
                 {
-                    W.CastOnUnit(Player);
+                    W.Cast(Player);
                     return;
                 }
                 if (target.IsValidTarget(800) && E.IsReady() && UseEAgain)

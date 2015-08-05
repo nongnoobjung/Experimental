@@ -56,7 +56,7 @@ namespace AutoSharp.Plugins
                     {
                         if (R.CastCheck(Target, "ComboRKS"))
                         {
-                            R.CastOnUnit(target);
+                            R.Cast(target);
                             return;
                         }
                     }

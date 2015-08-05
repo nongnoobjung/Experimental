@@ -47,34 +47,31 @@ namespace AutoSharp.Plugins
 
         public override void OnUpdate(EventArgs args)
         {
-            if (ComboMode)
-            {
             
                 if (Q.CastCheck(Target, "ComboQ"))
                 {
-                    Q.CastOnUnit(Target);
+                    Q.Cast(Target);
                 }
 
                 if (Player.Distance(Target) >= 575 && !Target.IsFacing(Player) && W.CastCheck(Target, "ComboW"))
                 {
-                    W.CastOnUnit(Target);
+                    W.Cast(Target);
                 }
 
                 if (Target.IsValidTarget(W.Range) && W.CastCheck(Target, "ComboW"))
                 {
-                    W.CastOnUnit(Target);
+                    W.Cast(Target);
                 }
 
                 if (Target.IsValidTarget(E.Range) && W.CastCheck(Target, "ComboE"))
                 {
-                    E.CastOnUnit(Target);
+                    E.Cast(Target);
                 }
 
                 if (R.IsReady())
                 {
                     R.Cast();
                 }
-            }
         }
 
       

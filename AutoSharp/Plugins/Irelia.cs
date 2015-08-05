@@ -36,12 +36,12 @@ namespace AutoSharp.Plugins
                 {
                     W.Cast();
                 }
-                Q.CastOnUnit(target);
+                Q.Cast(target);
             }
 
             if (E.IsReady())
             {
-                E.CastOnUnit(target);
+                E.Cast(target);
             }
             if (R.IsReady() && Player.Distance(target) < Q.Range)
             {

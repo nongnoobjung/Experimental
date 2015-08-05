@@ -28,7 +28,7 @@ namespace AutoSharp.Plugins
             {
                 if (E.CastCheck(Target, "ComboE") && Target.HasBuffOfType(BuffType.Poison))
                 {
-                    E.CastOnUnit(Target);
+                    E.Cast(Target);
                 }
                 if (Q.CastCheck(Target, "ComboQ"))
                 {
@@ -47,7 +47,7 @@ namespace AutoSharp.Plugins
             {
                 if (E.CastCheck(Target, "ComboE") && Target.HasBuffOfType(BuffType.Poison))
                 {
-                    E.CastOnUnit(Target);
+                    E.Cast(Target);
                 }
                 if (Q.CastCheck(Target, "ComboQ"))
                 {

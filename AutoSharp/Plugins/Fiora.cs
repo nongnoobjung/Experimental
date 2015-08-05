@@ -27,7 +27,7 @@ namespace AutoSharp.Plugins
                 }
                 if (R.IsReady() && R.GetDamage(Target) > Target.Health)
                 {
-                    R.CastOnUnit(Target);
+                    R.Cast(Target);
                 }
             }
         }

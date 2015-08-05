@@ -42,7 +42,7 @@ namespace AutoSharp.Plugins
 				var allminions = MinionManager.GetMinions(ObjectManager.Player.Position, Q.Range, MinionTypes.All, MinionTeam.NotAlly);
 				foreach(var minion in allminions)
                 {
-                    if (minion.Health < Player.GetSpellDamage(minion, SpellSlot.Q)) Q.CastOnUnit(minion);
+                    if (minion.Health < Player.GetSpellDamage(minion, SpellSlot.Q)) Q.Cast(minion);
                     return;
                 }
           //  }

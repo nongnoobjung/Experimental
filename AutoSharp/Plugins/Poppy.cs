@@ -97,11 +97,11 @@ namespace AutoSharp.Plugins
                 {
                     if (hero != null)
                     {
-                        R.CastOnUnit(hero);
+                        R.Cast(hero);
                     }
                 }
 
-                R.CastOnUnit(FindTank());
+                R.Cast(FindTank());
             }
 
             if (W.IsReady() && W.Range >= Player.Distance(target))

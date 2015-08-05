@@ -53,7 +53,7 @@ namespace AutoSharp.Plugins
                                     (ObjectManager.Player.GetSpellDamage(minion, SpellSlot.R) > minion.Health))
                                 .Where(minion => count < 6))
                     {
-                        R.CastOnUnit(minion);
+                        R.Cast(minion);
                     }
                 }
             }
@@ -80,7 +80,7 @@ namespace AutoSharp.Plugins
                                 (ObjectManager.Player.GetSpellDamage(minion, SpellSlot.R) > minion.Health))
                             .Where(minion => count < 6))
                 {
-                    R.CastOnUnit(minion);
+                    R.Cast(minion);
                 }
             }
 

@@ -51,7 +51,7 @@ namespace AutoSharp.Plugins
                     Q.GetPrediction(Target).UnitPosition.CountEnemiesInRange(250) >=
                     ConfigValue<Slider>("Misc.Q.Count").Value)
                 {
-                    R.CastOnUnit(Player);
+                    R.Cast(Player);
                     Utility.DelayAction.Add(200, () => Q.Cast(Target));
                 }
                 if (Q.CastCheck(Target, "Combo.Q"))
@@ -62,19 +62,19 @@ namespace AutoSharp.Plugins
                 if (W.CastCheck(Target, "Combo.W") && R.IsReady() &&
                     Player.HealthPercent <= ConfigValue<Slider>("Misc.W.Hp").Value)
                 {
-                    R.CastOnUnit(Player);
-                    Utility.DelayAction.Add(200, () => W.CastOnUnit(Target));
+                    R.Cast(Player);
+                    Utility.DelayAction.Add(200, () => W.Cast(Target));
                 }
                 if (W.CastCheck(Target, "Combo.W"))
                 {
-                    W.CastOnUnit(Target);
+                    W.Cast(Target);
                 }
 
                 if (E.IsReady() && R.IsReady() &&
                     Helpers.AllyInRange(600).Count >= ConfigValue<Slider>("Misc.E.Count").Value)
                 {
-                    R.CastOnUnit(Player);
-                    Utility.DelayAction.Add(200, () => E.CastOnUnit(Player));
+                    R.Cast(Player);
+                    Utility.DelayAction.Add(200, () => E.Cast(Player));
                 }
             }
 
@@ -86,7 +86,7 @@ namespace AutoSharp.Plugins
                     Q.GetPrediction(Target).UnitPosition.CountEnemiesInRange(250) >=
                     ConfigValue<Slider>("Misc.Q.Count").Value)
                 {
-                    R.CastOnUnit(Player);
+                    R.Cast(Player);
                     Utility.DelayAction.Add(200, () => Q.Cast(Target));
                 }
                 if (Q.CastCheck(Target, "Harass.Q"))
@@ -97,8 +97,8 @@ namespace AutoSharp.Plugins
                 if (E.IsReady() && R.IsReady() &&
                     Helpers.AllyInRange(600).Count >= ConfigValue<Slider>("Misc.E.Count").Value)
                 {
-                    R.CastOnUnit(Player);
-                    Utility.DelayAction.Add(200, () => E.CastOnUnit(Player));
+                    R.Cast(Player);
+                    Utility.DelayAction.Add(200, () => E.Cast(Player));
                 }
             }
         }
@@ -112,7 +112,7 @@ namespace AutoSharp.Plugins
 
             if (W.CastCheck(gapcloser.Sender, "Gapcloser.W"))
             {
-                W.CastOnUnit(gapcloser.Sender);
+                W.Cast(gapcloser.Sender);
             }
         }
 

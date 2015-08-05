@@ -66,7 +66,7 @@ namespace AutoSharp.Plugins
 
             if (Q.IsReady() && W.CastCheck(Target, "Combo.W"))
             {
-                W.CastOnUnit(Target);
+                W.Cast(Target);
                 var jumpTime = Math.Max(0, Player.Distance(Target) - 500)*10/25 + 25;
                 Utility.DelayAction.Add((int) jumpTime, () => Q.Cast());
             }
@@ -87,7 +87,7 @@ namespace AutoSharp.Plugins
 
             if (W.CastCheck(gapcloser.Sender, "Gapcloser.W"))
             {
-                W.CastOnUnit(gapcloser.Sender);
+                W.Cast(gapcloser.Sender);
             }
         }
 
@@ -105,7 +105,7 @@ namespace AutoSharp.Plugins
 
             if (W.CastCheck(unit, "Interrupt.W"))
             {
-                W.CastOnUnit(unit);
+                W.Cast(unit);
             }
         }
 

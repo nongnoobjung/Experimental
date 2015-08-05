@@ -30,7 +30,7 @@ namespace AutoSharp.Plugins
                 }
                 if (E.CastCheck(Target, "ComboE"))
                 {
-                    E.CastOnUnit(Target);
+                    E.Cast(Target);
                 }
 
                 if (W.IsReady() && Target.IsValidTarget(W.Range))
@@ -51,7 +51,7 @@ namespace AutoSharp.Plugins
                 }
                 if (E.CastCheck(Target, "ComboE"))
                 {
-                    E.CastOnUnit(Target);
+                    E.Cast(Target);
                 }
 
                 if (W.IsReady() && Target.IsValidTarget(W.Range))

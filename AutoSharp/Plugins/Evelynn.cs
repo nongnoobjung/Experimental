@@ -32,7 +32,7 @@ namespace AutoSharp.Plugins
 
                 if (E.CastCheck(Target, "ComboE"))
                 {
-                    E.CastOnUnit(Target);
+                    E.Cast(Target);
                 }
                 if (R.IsReady())
                 {

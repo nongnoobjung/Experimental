@@ -185,13 +185,12 @@ namespace AutoSharp.Utils
             bool range = true,
             bool team = true)
         {
-            return spell.IsReady() && target.IsValidTarget(range ? spell.Range : float.MaxValue, team) &&
-                   PluginBase.Config.Item("autosharp." + ObjectManager.Player.ChampionName + "." + menu).GetValue<bool>() && !ObjectManager.Player.UnderTurret(true);
+            return spell.IsReady() && target.IsValidTarget() && !ObjectManager.Player.UnderTurret(true);
         }
 
         public static bool CastCheck(this Spell spell, Obj_AI_Base target, bool range = true, bool team = true)
         {
-            return spell.IsReady() && target.IsValidTarget(range ? spell.Range : float.MaxValue, team);
+            return spell.IsReady() && target.IsValidTarget() && !ObjectManager.Player.UnderTurret(true);
         }
 
         public static bool IsInRange(this Spell spell, Obj_AI_Base target)

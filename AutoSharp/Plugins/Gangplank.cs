@@ -43,7 +43,7 @@ namespace AutoSharp.Plugins
 			var allminions = MinionManager.GetMinions(ObjectManager.Player.Position, Q.Range, MinionTypes.All, MinionTeam.NotAlly);
 			foreach(var minion in allminions)
 			{
-				if (minion.Health < Player.GetSpellDamage(minion, SpellSlot.Q)) Q.CastOnUnit(minion);
+				if (minion.Health < Player.GetSpellDamage(minion, SpellSlot.Q)) Q.Cast(minion);
 			}
 
 			if (target == null) return;
@@ -54,7 +54,7 @@ namespace AutoSharp.Plugins
 
 			if (Q.IsReady() && target.IsValidTarget(Q.Range))
 			{
-				Q.CastOnUnit(target);
+				Q.Cast(target);
 			}
 			
 			if (targetr == null) return;
@@ -73,7 +73,7 @@ namespace AutoSharp.Plugins
                 if (!target.IsDead && Q.IsReady() && !target.IsAlly && Player.Distance(target.Position) < Q.Range &&
                     Player.GetSpellDamage(target, SpellSlot.Q) > (target.Health + 20))
                 {
-                    Q.CastOnUnit(target);
+                    Q.Cast(target);
                 }
                 if (R.IsReady() && !target.IsDead && !target.IsAlly && Player.Distance(target.Position) < R.Range &&
                     Player.GetSpellDamage(target, SpellSlot.R) > (target.Health))

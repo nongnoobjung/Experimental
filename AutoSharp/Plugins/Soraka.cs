@@ -114,7 +114,7 @@ namespace AutoSharp.Plugins
                 // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 if (ally != null && (Player.Health / Player.MaxHealth) * 100 > 70)
                 {
-                    W.CastOnUnit(ally);
+                    W.Cast(ally);
                 }
             }
         }

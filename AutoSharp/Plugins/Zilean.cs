@@ -62,7 +62,7 @@ namespace AutoSharp.Plugins
 
 					if (E.IsReady() && Player.CountEnemiesInRange(1000) > 1 && Player.ManaPercent > 50 && Player.HealthPercent <	 70)
 					{
-						E.CastOnUnit(ally123.FirstOrDefault());
+						E.Cast(ally123.FirstOrDefault());
 					}
 					var lowestAlly = ally123.FirstOrDefault();
 					if (R.IsReady() && Player.CountEnemiesInRange(3000) > 0 && Player.HealthPercent < 20)

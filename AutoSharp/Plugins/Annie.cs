@@ -80,7 +80,7 @@ namespace AutoSharp.Plugins
                 }
                 if (W.CastCheck(unit, "Interrupt.W"))
                 {
-                    W.CastOnUnit(unit);
+                    W.Cast(unit);
                     return;
                 }
             }
@@ -96,14 +96,14 @@ namespace AutoSharp.Plugins
                     }
                     if (W.CastCheck(unit, "Interrupt.W"))
                     {
-                        W.CastOnUnit(unit);
+                        W.Cast(unit);
                         return;
                     }
                 }
                 if (Q.CastCheck(unit, "Interrupt.Q") && W.CastCheck(unit, "Interrupt.W"))
                 {
                     Q.Cast(unit);
-                    W.CastOnUnit(unit);
+                    W.Cast(unit);
                 }
             }
         }

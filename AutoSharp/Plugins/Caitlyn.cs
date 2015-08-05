@@ -22,7 +22,7 @@ namespace AutoSharp.Plugins
         {
             if (E.IsReady() && gapcloser.Sender.IsValidTarget(E.Range))
             {
-                E.CastOnUnit(gapcloser.Sender);
+                E.Cast(gapcloser.Sender);
             }
         }
 
@@ -62,7 +62,7 @@ namespace AutoSharp.Plugins
                     t = TargetSelector.GetTarget(R.Range, TargetSelector.DamageType.Physical);
                     if (t != null && t.Health <= R.GetDamage(t) && !Orbwalking.InAutoAttackRange(t))
                     {
-                        R.CastOnUnit(t);
+                        R.Cast(t);
                     }
                 }
             }

@@ -84,14 +84,14 @@ namespace AutoSharp.Plugins
                         if (ObjectManager.Player.GetSpellDamage(target, SpellSlot.R, 1) * (1 + buff.Count / 5) - 1 >
                             (target.Health))
                         {
-                            R.CastOnUnit(target, true);
+                            R.Cast(target, true);
                         }
                     }
                 }
             }
             else if (ObjectManager.Player.GetSpellDamage(target, SpellSlot.R, 1) - 15 > (target.Health))
             {
-                R.CastOnUnit(target, true);
+                R.Cast(target, true);
             }
         }
 

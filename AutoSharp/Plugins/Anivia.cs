@@ -31,7 +31,7 @@ namespace AutoSharp.Plugins
             {
                 if (E.CastCheck(Target, "ComboE") && ShouldE(Target))
                 {
-                    E.CastOnUnit(Target);
+                    E.Cast(Target);
                 }
 
                 //Q
@@ -63,8 +63,8 @@ namespace AutoSharp.Plugins
                 {
                     if (R.IsReady() && E.IsReady())
                     {
-                        E.CastOnUnit(target);
-                        R.CastOnUnit(target);
+                        E.Cast(target);
+                        R.Cast(target);
                         return;
                     }
                 }
@@ -98,7 +98,7 @@ namespace AutoSharp.Plugins
                 {
                     if (E.IsReady())
                     {
-                        E.CastOnUnit(target);
+                        E.Cast(target);
                         return;
                     }
                 }

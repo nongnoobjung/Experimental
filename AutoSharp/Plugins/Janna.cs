@@ -80,7 +80,7 @@ namespace AutoSharp.Plugins
 
                     if (W.CastCheck(Target, "Combo.W"))
                     {
-                        W.CastOnUnit(Target);
+                        W.Cast(Target);
                     }
 
                     var ally = Helpers.AllyBelowHp(ConfigValue<Slider>("Combo.R.Health").Value, R.Range);
@@ -94,7 +94,7 @@ namespace AutoSharp.Plugins
                 {
                     if (W.CastCheck(Target, "Harass.W"))
                     {
-                        W.CastOnUnit(Target);
+                        W.Cast(Target);
                     }
                 }
             }
@@ -142,7 +142,7 @@ namespace AutoSharp.Plugins
             if (E.IsReady() && E.IsInRange(caster) && (ComboMode || HarassMode) &&
                 ConfigValue<bool>("Misc.E.AA." + caster.ChampionName))
             {
-                E.CastOnUnit(caster);
+                E.Cast(caster);
             }
         }
 
@@ -165,7 +165,7 @@ namespace AutoSharp.Plugins
 
                     if (E.IsInRange(turret))
                     {
-                        E.CastOnUnit(turret);
+                        E.Cast(turret);
                     }
                 }
             }
@@ -190,7 +190,7 @@ namespace AutoSharp.Plugins
 
             if (W.CastCheck(gapcloser.Sender, "Gapcloser.W"))
             {
-                W.CastOnUnit(gapcloser.Sender);
+                W.Cast(gapcloser.Sender);
             }
         }
 

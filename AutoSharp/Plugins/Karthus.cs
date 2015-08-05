@@ -105,7 +105,7 @@ namespace AutoSharp.Plugins
 
             if (!ignoreTargetChecks && (target != null || (!_comboE && minions.Count != 0)))
                 return;
-            E.CastOnUnit(ObjectManager.Player);
+            E.Cast(ObjectManager.Player);
             _comboE = false;
         }
 

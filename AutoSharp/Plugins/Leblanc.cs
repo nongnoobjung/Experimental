@@ -33,8 +33,8 @@ namespace AutoSharp.Plugins
 
                 if (Q.IsReady() && R.IsReady() && target.IsValidTarget(Q.Range))
                 {
-                    Q.CastOnUnit(target);
-                    Utility.DelayAction.Add(100, () => R.CastOnUnit(target));
+                    Q.Cast(target);
+                    Utility.DelayAction.Add(100, () => R.Cast(target));
                 }
 
                 if (W.IsReady() && target.IsValidTarget(W.Range) && !_firstW && (Player.HealthPercent > 30 || W.IsKillable(target)))
@@ -44,11 +44,11 @@ namespace AutoSharp.Plugins
                 }
                 if (Q.IsReady() && target.IsValidTarget(Q.Range))
                 {
-                    Q.CastOnUnit(target);
+                    Q.Cast(target);
                 }
                 if (R.IsReady() && target.IsValidTarget(Q.Range))
                 {
-                    R.CastOnUnit(target);
+                    R.Cast(target);
                 }
                 if (E.IsReady() && target.IsValidTarget(700))
                 {
