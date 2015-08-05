@@ -11,12 +11,23 @@ namespace AutoSharp.Auto.SummonersRift
 {
     public static class MyTeam
     {
+        public enum Roles
+        {
+            Toplaner,
+            Midlaner,
+            Jungler,
+            Support,
+            ADC,
+            Unknown
+        }
+
         public static Obj_AI_Hero Toplaner;
         public static Obj_AI_Hero Midlaner;
         public static Obj_AI_Hero Jungler;
         public static Obj_AI_Hero Support;
         public static Obj_AI_Hero Player = Heroes.Player;
         public static Obj_AI_Hero ADC;
+        public static Roles MyRole = Roles.Unknown;
 
         public static void Update()
         {
@@ -26,7 +37,7 @@ namespace AutoSharp.Auto.SummonersRift
             }
             if (Support == null)
             {
-                Support = Heroes.AllyHeroes.FirstOrDefault(h => !h.IsMe && h.HasSupportItems() || (h.FlatMagicDamageMod >= 15f && h.Distance(Player.Team == GameObjectTeam.Order ? Map.BottomLane.Blue_Outer_Turret.To3D() : Map.BottomLane.Red_Outer_Turret.To3D()) < 4500));
+                Support = Heroes.AllyHeroes.FirstOrDefault(h => !h.IsMe && h != Jungler && h != ADC && (h.Distance(Player.Team == GameObjectTeam.Order ? Map.BottomLane.Blue_Outer_Turret.To3D() : Map.BottomLane.Red_Outer_Turret.To3D()) < 4500));
             }
             if (Toplaner == null)
             {
@@ -38,7 +49,7 @@ namespace AutoSharp.Auto.SummonersRift
             }
             if (ADC == null)
             {
-                ADC = Heroes.AllyHeroes.FirstOrDefault(h => !h.IsMe && h != Jungler && h != Support && h.Distance(Player.Team == GameObjectTeam.Order ? Map.BottomLane.Blue_Outer_Turret.To3D() : Map.BottomLane.Red_Outer_Turret.To3D()) < 4500) ?? Heroes.AllyHeroes.FirstOrDefault(h => h != Jungler && h != Support && h.Distance(Player.Team == GameObjectTeam.Order ? Map.BottomLane.Blue_Inner_Turret.To3D() : Map.BottomLane.Red_Inner_Turret.To3D()) < 1500);
+                ADC = Heroes.AllyHeroes.FirstOrDefault(h => !h.IsMe && h != Jungler && h != Support && h.Distance(Player.Team == GameObjectTeam.Order ? Map.BottomLane.Blue_Outer_Turret.To3D() : Map.BottomLane.Red_Outer_Turret.To3D()) < 4500);
             }
         }
     }

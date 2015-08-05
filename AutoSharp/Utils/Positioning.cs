@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 using ClipperLib;
 using LeagueSharp;
 using LeagueSharp.Common;
 using SharpDX;
+using AutoSharp.Auto.SummonersRift;
 using Path = System.Collections.Generic.List<ClipperLib.IntPoint>;
 using Paths = System.Collections.Generic.List<System.Collections.Generic.List<ClipperLib.IntPoint>>;
 using GamePath = System.Collections.Generic.List<SharpDX.Vector2>;
@@ -45,7 +47,7 @@ namespace AutoSharp.Utils
             var farthestAlly =
                 Heroes.AllyHeroes.OrderByDescending(h => h.Distance(HeadQuarters.AllyHQ)).FirstOrDefault();
 
-            if (farthestAlly == null)
+            if (farthestAlly == null || farthestAlly.InFountain())
             {
                 var minion =
                     Minions.AllyMinions.OrderByDescending(t => t.Distance(HeadQuarters.AllyHQ)).FirstOrDefault();

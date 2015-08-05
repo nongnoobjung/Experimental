@@ -81,10 +81,13 @@
     <Compile Include="Auto\HowlingAbyss\DecisionMaker.cs" />
     <Compile Include="Auto\HowlingAbyss\Decisions.cs" />
     <Compile Include="Auto\HowlingAbyss\HAManager.cs" />
+    <Compile Include="Auto\SummonersRift\SRShopAI\BuyItemEvent.cs" />
+    <Compile Include="Auto\SummonersRift\SRShopAI\CustomEvents.cs" />
+    <Compile Include="Auto\SummonersRift\SRShopAI\Item.cs" />
+    <Compile Include="Auto\SummonersRift\SRShopAI\Main.cs" />
     <Compile Include="Auto\SummonersRift\MyTeam.cs" />
     <Compile Include="Auto\SummonersRift\RoleSwitcher.cs" />
     <Compile Include="Auto\SummonersRift\Map.cs" />
-    <Compile Include="Auto\SummonersRift\Role\Support.cs" />
     <Compile Include="Auto\SummonersRift\Shopping.cs" />
     <Compile Include="Auto\SummonersRift\SRManager.cs" />
     <Compile Include="PluginBase.cs" />

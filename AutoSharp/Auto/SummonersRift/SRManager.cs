@@ -10,19 +10,24 @@ namespace AutoSharp.Auto.SummonersRift
         public static void Load()
         {
             RoleSwitcher.Load();
+            SRShopAI.Main.Init();
+            RoleSwitcher.Unpause();
             AttackableUnit.OnDamage += OnDamage;
+            Obj_AI_Base.OnIssueOrder += OnIssueOrder;
+            Spellbook.OnCastSpell += OnCastSpell;
         }
 
         public static void Unload()
         {
             AttackableUnit.OnDamage -= OnDamage;
-            RoleSwitcher.UnloadAll();
+            //RoleSwitcher.Unload(); #TODO OR NOT TODO: SHIT WILL GO CRAZY YO
+            RoleSwitcher.Pause();
         }
 
         public static void FastHalt()
         {
             Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
-            RoleSwitcher.PauseAll();
+            RoleSwitcher.Pause();
         }
 
         public static void OnUpdate(EventArgs args)
@@ -31,7 +36,6 @@ namespace AutoSharp.Auto.SummonersRift
             {
                 Shopping.Shop();
                 Wizard.AntiAfk();
-                RoleSwitcher.ChooseBest();
                 Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.Mixed;
             }
             if (Heroes.Player.HealthPercent < 30f || Heroes.Player.Gold > 2000.Randomize(1000))
@@ -43,9 +47,21 @@ namespace AutoSharp.Auto.SummonersRift
             }
         }
 
+        public static void OnIssueOrder(Obj_AI_Base sender, GameObjectIssueOrderEventArgs args)
+        {
+            if (sender == Heroes.Player && args.Order == GameObjectOrder.MoveTo)
+            {
+                var nearbyEnemyTurret = args.TargetPosition.GetClosestEnemyTurret();
+                if (nearbyEnemyTurret != null && nearbyEnemyTurret.Position.CountNearbyAllyMinions(700) <= 2 && nearbyEnemyTurret.Distance(args.TargetPosition) < 800)
+                {
+                    args.Process = false;
+                }
+            }
+        }
+
         public static void OnDamage(AttackableUnit sender, AttackableUnitDamageEventArgs args)
         {
-            if (sender is Obj_AI_Minion && args.TargetNetworkId == Heroes.Player.NetworkId)
+            if ((sender is Obj_AI_Minion || sender is Obj_AI_Turret) && args.TargetNetworkId == Heroes.Player.NetworkId)
             {
                 if (Heroes.Player.Position.CountNearbyAllies(1000) <
                     Heroes.Player.Position.CountNearbyEnemies(1000) ||
@@ -55,6 +71,14 @@ namespace AutoSharp.Auto.SummonersRift
                     Wizard.MoveBehindClosestAllyMinion();
                     Utility.DelayAction.Add(2500, () => Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.Mixed);
                 }
+            }
+        }
+
+        private static void OnCastSpell(Spellbook sender, SpellbookCastSpellEventArgs args)
+        {
+            if (sender.Owner.IsMe && Heroes.Player.UnderTurret(true))
+            {
+                args.Process = false;
             }
         }
     }
