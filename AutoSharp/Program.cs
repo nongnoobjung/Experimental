@@ -50,10 +50,11 @@ namespace AutoSharp
             {
                 Map = Utility.Map.GetMap().Type; 
                 Cache.Load(); 
-                Game.OnUpdate += Positioning.OnUpdate; 
+                Game.OnUpdate += Positioning.OnUpdate;
                 Autoplay.Load();
                 Game.OnEnd += OnEnd;
                 Obj_AI_Base.OnIssueOrder += AntiShrooms;
+                Spellbook.OnCastSpell += OnCastSpell;
             };
 
 
@@ -66,6 +67,14 @@ namespace AutoSharp
                         LeagueSharp.Common.AutoLevel.Enable();
                         Console.WriteLine("AutoLevel Init Success!");
                     });
+        }
+
+        private static void OnCastSpell(Spellbook sender, SpellbookCastSpellEventArgs args)
+        {
+            if (sender.Owner.IsMe && sender.Owner.UnderTurret(true) && args.Target.IsValid<Obj_AI_Hero>())
+            {
+                args.Process = false; 
+            }
         }
 
         private static void OnEnd(GameEndEventArgs args)
@@ -88,6 +97,10 @@ namespace AutoSharp
                 }
                 //AntiShrooms
                 if (Traps.EnemyTraps.Any(t => t.Position.Distance(args.TargetPosition) < 125)) { args.Process = false; }
+                //AntiJihadIntoTurret
+                var turretNearTargetPosition =
+                    Turrets.EnemyTurrets.FirstOrDefault(t => t.Distance(args.TargetPosition) < 800);
+                if (turretNearTargetPosition != null && turretNearTargetPosition.CountNearbyAllyMinions(800) < 3) { args.Process = false; }
                 //The movement will occur
                 _lastMovementTick = Environment.TickCount;
             }

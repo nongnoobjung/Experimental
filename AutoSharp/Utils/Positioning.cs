@@ -24,6 +24,14 @@ namespace AutoSharp.Utils
         internal static void OnUpdate(EventArgs args)
         {
             if (Environment.TickCount - LastUpdate < 250) return;
+
+            if (Heroes.Player.UnderTurret(true))
+            {
+                var turret =
+                    Turrets.EnemyTurrets.FirstOrDefault(t => t.Distance(Heroes.Player.ServerPosition) <= 800);
+                if (turret.CountNearbyAllyMinions(800) < 3) { Program.Orbwalker.SetOrbwalkingPoint(HeadQuarters.AllyHQ.RandomizePosition()); }
+            }
+
             LastUpdate = Environment.TickCount;
 
             ValidPossibleMoves = new List<Vector3>();

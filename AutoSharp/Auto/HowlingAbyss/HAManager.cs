@@ -13,7 +13,6 @@ namespace AutoSharp.Auto.HowlingAbyss
             AttackableUnit.OnDamage += OnDamage;
             Obj_AI_Base.OnIssueOrder += OnIssueOrder;
             ARAMShopAI.Main.Init(); 
-            Spellbook.OnCastSpell += OnCastSpell;
         }
 
         public static void Unload()
@@ -51,14 +50,6 @@ namespace AutoSharp.Auto.HowlingAbyss
                     Wizard.MoveBehindClosestAllyMinion();
                     Utility.DelayAction.Add(2500, () => Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.Mixed);
                 }
-            }
-        }
-
-        private static void OnCastSpell(Spellbook sender, SpellbookCastSpellEventArgs args)
-        {
-            if (sender.Owner.IsMe && Heroes.Player.UnderTurret(true))
-            {
-                args.Process = false;
             }
         }
     }
