@@ -35,6 +35,7 @@ namespace AutoSharp
                 };
             Config.AddItem(new MenuItem("autosharp.playmode", "Play Mode").SetValue(new StringList(new[] {"AUTOSHARP", "AIM"})));
             Config.AddItem(new MenuItem("autosharp.humanizer", "Humanize Movement by ").SetValue(new Slider(175, 125, 350)));
+            Config.AddItem(new MenuItem("autosharp.quit", "Quit after Game End").SetValue(true));
             var options = Config.AddSubMenu(new Menu("Options: ", "autosharp.options"));
             options.AddItem(new MenuItem("autosharp.options.healup", "Take Heals?").SetValue(true));
             var orbwalker = Config.AddSubMenu(new Menu("Orbwalker", "autosharp.orbwalker"));
@@ -51,6 +52,7 @@ namespace AutoSharp
                 Cache.Load(); 
                 Game.OnUpdate += Positioning.OnUpdate; 
                 Autoplay.Load();
+                Game.OnEnd += OnEnd;
                 Obj_AI_Base.OnIssueOrder += AntiShrooms;
             };
 
@@ -64,6 +66,14 @@ namespace AutoSharp
                         LeagueSharp.Common.AutoLevel.Enable();
                         Console.WriteLine("AutoLevel Init Success!");
                     });
+        }
+
+        private static void OnEnd(GameEndEventArgs args)
+        {
+            if (Config.Item("autosharp.quit").GetValue<bool>())
+            {
+                Game.Quit();
+            }
         }
 
         private static void AntiShrooms(Obj_AI_Base sender, GameObjectIssueOrderEventArgs args)
