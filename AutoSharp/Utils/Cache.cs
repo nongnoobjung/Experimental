@@ -201,7 +201,6 @@ namespace AutoSharp.Utils
 
         private static void OnCreate(GameObject sender, EventArgs args)
         {
-            if (sender.IsValid<Obj_AI_Minion>()) _minions.Add((Obj_AI_Minion)sender);
         }
 
     }
