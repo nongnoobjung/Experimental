@@ -64,7 +64,7 @@ namespace AutoSharp.Plugins
 				if (E.IsReady())
 				{
 
-					E.CastOnUnit(target1);
+					E.Cast(target1);
 				}
         }
 

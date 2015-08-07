@@ -57,17 +57,17 @@ namespace AutoSharp.Plugins
 				}
                 if (Q.IsReady())
                 {
-                    Q.CastOnUnit(target);
+                    Q.Cast(target);
                 }
 
                 if (E.IsReady())
                 {
-                    E.CastOnUnit(target);
+                    E.Cast(target);
 					return;
                 }
 				if (W.IsReady())
 				{
-					W.CastOnUnit(target);
+					W.Cast(target);
 				}
             }
 
@@ -75,7 +75,7 @@ namespace AutoSharp.Plugins
             {
                 if (E.CastCheck(target, "Harass.E"))
                 {
-                    E.CastOnUnit(target);
+                    E.Cast(target);
                 }
             }
         }
@@ -89,7 +89,7 @@ namespace AutoSharp.Plugins
 
             if (Q.CastCheck(gapcloser.Sender, "Gapcloser.Q"))
             {
-                Q.CastOnUnit(gapcloser.Sender);
+                Q.Cast(gapcloser.Sender);
             }
         }
 
@@ -102,13 +102,13 @@ namespace AutoSharp.Plugins
 
             if (Q.CastCheck(unit, "Interrupt.Q"))
             {
-                Q.CastOnUnit(unit);
+                Q.Cast(unit);
                 return;
             }
 
             if (E.CastCheck(unit, "Interrupt.E"))
             {
-                E.CastOnUnit(unit);
+                E.Cast(unit);
             }
         }
 

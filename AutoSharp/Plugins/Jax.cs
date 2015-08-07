@@ -49,7 +49,7 @@ namespace AutoSharp.Plugins
                     {
                         R.Cast();
                     }
-                    Q.CastOnUnit(Target);
+                    Q.Cast(Target);
                 }
                 if (E.IsReady() && Target.IsValidTarget(E.Range))
                 {

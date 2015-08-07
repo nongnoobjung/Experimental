@@ -28,13 +28,13 @@ namespace AutoSharp.Plugins
 	        {
 	            if ((target.HealthPercent < 60))
 	            {
-	                E.CastOnUnit(target);
+	                E.Cast(target);
 
 	            }
 	            Q.Cast(target);
 	            if ((target.HealthPercent < 40))
 	            {
-	                E.CastOnUnit(target);
+	                E.Cast(target);
 
 	            }
 
@@ -46,7 +46,7 @@ namespace AutoSharp.Plugins
 	            {
 	                if (E.CastCheck(Target, "ComboE"))
 	                {
-	                    E.CastOnUnit(target);
+	                    E.Cast(target);
 
 	                }
 	            }
@@ -85,7 +85,7 @@ namespace AutoSharp.Plugins
 	                {
 	                    if (E.CastCheck(Target, "ComboE"))
 	                    {
-	                        E.CastOnUnit(target);
+	                        E.Cast(target);
 
 	                    }
 	                }

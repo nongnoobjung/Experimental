@@ -59,7 +59,7 @@ namespace AutoSharp
         /// </summary>
         public bool HarassMode
         {
-            get { return Orbwalker.ActiveMode == MyOrbwalker.OrbwalkingMode.Mixed && HarassMana && !Player.IsDead; }
+            get { return false; }
         }
 
         /// <summary>

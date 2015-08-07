@@ -1,17 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoSharp.Auto;
 using AutoSharp.Utils;
 using LeagueSharp;
 using LeagueSharp.Common;
+
 // ReSharper disable ObjectCreationAsStatement
 
 namespace AutoSharp
 {
     class Program
     {
+        public static Utility.Map.MapType Map;
         public static Menu Config;
         public static MyOrbwalker.Orbwalker Orbwalker;
+        private static int _lastMovementTick = 0;
 
         public static void Init()
         {
@@ -29,6 +33,11 @@ namespace AutoSharp
                         Orbwalker.SetOrbwalkingPoint(Game.CursorPos);
                     }
                 };
+            Config.AddItem(new MenuItem("autosharp.playmode", "Play Mode").SetValue(new StringList(new[] {"AUTOSHARP", "AIM"})));
+            Config.AddItem(new MenuItem("autosharp.humanizer", "Humanize Movement by ").SetValue(new Slider(175, 125, 350)));
+            Config.AddItem(new MenuItem("autosharp.quit", "Quit after Game End").SetValue(true));
+            var options = Config.AddSubMenu(new Menu("Options: ", "autosharp.options"));
+            options.AddItem(new MenuItem("autosharp.options.healup", "Take Heals?").SetValue(true));
             var orbwalker = Config.AddSubMenu(new Menu("Orbwalker", "autosharp.orbwalker"));
             var randomizer = Config.AddSubMenu(new Menu("Randomizer", "autosharp.randomizer"));
             randomizer.AddItem(new MenuItem("autosharp.randomizer.minrand", "Min Rand By").SetValue(new Slider(0, 0, 250)));
@@ -37,7 +46,16 @@ namespace AutoSharp
             randomizer.AddItem(new MenuItem("autosharp.randomizer.auto", "Auto-Adjust? (ALPHA)").SetValue(true));
 
             new PluginLoader();
-            CustomEvents.Game.OnGameLoad += args => { Cache.Load(); Game.OnUpdate += Positioning.OnUpdate; Autoplay.Load(); };
+            CustomEvents.Game.OnGameLoad += args =>
+            {
+                Map = Utility.Map.GetMap().Type; 
+                Cache.Load(); 
+                Game.OnUpdate += Positioning.OnUpdate;
+                Autoplay.Load();
+                Game.OnEnd += OnEnd;
+                Obj_AI_Base.OnIssueOrder += AntiShrooms;
+                Spellbook.OnCastSpell += OnCastSpell;
+            };
 
 
             Orbwalker = new MyOrbwalker.Orbwalker(orbwalker);
@@ -49,6 +67,43 @@ namespace AutoSharp
                         LeagueSharp.Common.AutoLevel.Enable();
                         Console.WriteLine("AutoLevel Init Success!");
                     });
+        }
+
+        private static void OnCastSpell(Spellbook sender, SpellbookCastSpellEventArgs args)
+        {
+            if (sender.Owner.IsMe && sender.Owner.UnderTurret(true) && args.Target.IsValid<Obj_AI_Hero>())
+            {
+                args.Process = false; 
+            }
+        }
+
+        private static void OnEnd(GameEndEventArgs args)
+        {
+            if (Config.Item("autosharp.quit").GetValue<bool>())
+            {
+                Game.Quit();
+            }
+        }
+
+        private static void AntiShrooms(Obj_AI_Base sender, GameObjectIssueOrderEventArgs args)
+        {
+            if (sender.IsMe && args.Order == GameObjectOrder.MoveTo)
+            {
+                //Humanizer
+                if (Environment.TickCount - _lastMovementTick <
+                    Config.Item("autosharp.humanizer").GetValue<Slider>().Value)
+                {
+                    args.Process = false;
+                }
+                //AntiShrooms
+                if (Traps.EnemyTraps.Any(t => t.Position.Distance(args.TargetPosition) < 125)) { args.Process = false; }
+                //AntiJihadIntoTurret
+                var turretNearTargetPosition =
+                    Turrets.EnemyTurrets.FirstOrDefault(t => t.Distance(args.TargetPosition) < 800);
+                if (turretNearTargetPosition != null && turretNearTargetPosition.CountNearbyAllyMinions(800) < 3) { args.Process = false; }
+                //The movement will occur
+                _lastMovementTick = Environment.TickCount;
+            }
         }
 
         public static void Main(string[] args)

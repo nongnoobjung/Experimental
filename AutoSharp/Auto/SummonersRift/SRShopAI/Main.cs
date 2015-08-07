@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 using LeagueSharp;
 using LeagueSharp.Common;
 
-namespace AutoSharp.Auto.HowlingAbyss.ARAMShopAI
+namespace AutoSharp.Auto.SummonersRift.SRShopAI
 {
     class Main
     {
@@ -68,7 +68,7 @@ namespace AutoSharp.Auto.HowlingAbyss.ARAMShopAI
         };
         public static string[] Marksmen =
         {
-            "Statikk Shiv","The Bloodthirster",
+            "Blade of the Ruined King","The Bloodthirster",
             "Berserker's Greaves", "Infinity Edge", "Last Whisper", "Banshee's Veil"
         };
 
@@ -265,7 +265,7 @@ namespace AutoSharp.Auto.HowlingAbyss.ARAMShopAI
         }
         public static int FreeSlots()
         {
-            return -1 + ObjectManager.Player.InventoryItems.Count(y => !y.DisplayName.Contains("Poro"));
+            return -1 + ObjectManager.Player.InventoryItems.Count();
         }
 
         public static bool InventoryFull()

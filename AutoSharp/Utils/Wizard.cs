@@ -15,6 +15,22 @@ namespace AutoSharp.Utils
 {
     internal static class Extensions
     {
+        public static Vector3 GetPRADAPos(this Obj_AI_Hero target)
+        {
+            var aRC = new Geometry.Circle(Heroes.Player.ServerPosition.To2D(), 300).ToPolygon().ToClipperPath();
+            var tP = target.ServerPosition;
+            var pList = new List<Vector3>();
+            foreach (var p in aRC)
+            {
+                var v3 = new Vector2(p.X, p.Y).To3D();
+
+
+                if (!v3.UnderTurret(true) && v3.Distance(tP) > 325 && v3.Distance(tP) < Heroes.Player.AttackRange &&
+                    (v3.CountEnemiesInRange(425) <= v3.CountAlliesInRange(325))) pList.Add(v3);
+            }
+            return pList.Count > 1 ? pList.OrderByDescending(el => el.Distance(tP)).FirstOrDefault() : Vector3.Zero;
+        }
+
         public static Obj_AI_Turret GetClosestEnemyTurret(this Vector3 point)
         {
             return Turrets.EnemyTurrets.OrderBy(t => t.Distance(point)).FirstOrDefault();
@@ -169,13 +185,12 @@ namespace AutoSharp.Utils
             bool range = true,
             bool team = true)
         {
-            return spell.IsReady() && target.IsValidTarget(range ? spell.Range : float.MaxValue, team) &&
-                   PluginBase.Config.Item("autosharp." + ObjectManager.Player.ChampionName + "." + menu).GetValue<bool>() && !ObjectManager.Player.UnderTurret(true);
+            return spell.IsReady() && target.IsValidTarget() && !ObjectManager.Player.UnderTurret(true);
         }
 
         public static bool CastCheck(this Spell spell, Obj_AI_Base target, bool range = true, bool team = true)
         {
-            return spell.IsReady() && target.IsValidTarget(range ? spell.Range : float.MaxValue, team);
+            return spell.IsReady() && target.IsValidTarget() && !ObjectManager.Player.UnderTurret(true);
         }
 
         public static bool IsInRange(this Spell spell, Obj_AI_Base target)

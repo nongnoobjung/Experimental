@@ -51,7 +51,7 @@ namespace AutoSharp.Plugins
                     var minion = MinionManager.GetMinions(Player.Position, Q.Range).FirstOrDefault();
                     if (minion.IsValidTarget(Q.Range))
                     {
-                        Q.CastOnUnit(minion);
+                        Q.Cast(minion);
                     }
                 }
 				var tarnunu = TargetSelector.GetTarget(900, TargetSelector.DamageType.Magical);
@@ -59,17 +59,17 @@ namespace AutoSharp.Plugins
                 var allys = Helpers.AllyInRange(W.Range).OrderByDescending(h => h.FlatPhysicalDamageMod).ToList();
                 if (W.IsReady() && allys.Count > 0 && ConfigValue<bool>("Combo.W"))
                 {
-                    W.CastOnUnit(allys.FirstOrDefault());
+                    W.Cast(allys.FirstOrDefault());
                 }
 
                 if (W.IsReady() && tarnunu.IsValidTarget(AttackRange) && ConfigValue<bool>("Combo.W"))
                 {
-                    W.CastOnUnit(Player);
+                    W.Cast(Player);
                 }
 
                 if (E.IsReady() && Target.IsValidTarget(E.Range) && ConfigValue<bool>("Combo.E"))
                 {
-                    E.CastOnUnit(tarnunu);
+                    E.Cast(tarnunu);
                 }
                 if (R.IsReady() && Player.CountEnemiesInRange(R.Range) > 2)
                 {
@@ -85,7 +85,7 @@ namespace AutoSharp.Plugins
                     var minion = MinionManager.GetMinions(Player.Position, Q.Range).FirstOrDefault();
                     if (minion.IsValidTarget(Q.Range))
                     {
-                        Q.CastOnUnit(minion);
+                        Q.Cast(minion);
                     }
                 }
 				var tarnunu = TargetSelector.GetTarget(900, TargetSelector.DamageType.Magical);
@@ -93,17 +93,17 @@ namespace AutoSharp.Plugins
                 var allys = Helpers.AllyInRange(W.Range).OrderByDescending(h => h.FlatPhysicalDamageMod).ToList();
                 if (W.IsReady() && allys.Count > 0 && ConfigValue<bool>("Harass.W"))
                 {
-                    W.CastOnUnit(allys.FirstOrDefault());
+                    W.Cast(allys.FirstOrDefault());
                 }
 
                 if (W.IsReady() && tarnunu.IsValidTarget(AttackRange) && ConfigValue<bool>("Harass.W"))
                 {
-                    W.CastOnUnit(Player);
+                    W.Cast(Player);
                 }
 
                 if (E.IsReady() && tarnunu.IsValidTarget(E.Range) && ConfigValue<bool>("Harass.E"))
                 {
-                    E.CastOnUnit(tarnunu);
+                    E.Cast(tarnunu);
                 }
             }
         }
@@ -117,11 +117,11 @@ namespace AutoSharp.Plugins
 
             if (E.CastCheck(gapcloser.Sender, "Gapcloser.E"))
             {
-                E.CastOnUnit(gapcloser.Sender);
+                E.Cast(gapcloser.Sender);
 
                 if (W.IsReady())
                 {
-                    W.CastOnUnit(Player);
+                    W.Cast(Player);
                 }
             }
         }

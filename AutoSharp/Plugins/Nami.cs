@@ -86,7 +86,7 @@ namespace AutoSharp.Plugins
 
             if (E.IsReady() && E.IsInRange(missile.SpellCaster) && ConfigValue<bool>("Misc.E.AA." + caster.ChampionName))
             {
-                E.CastOnUnit(caster); // add delay
+                E.Cast(caster); // add delay
             }
         }
 
@@ -136,7 +136,7 @@ namespace AutoSharp.Plugins
             var ally = Helpers.AllyBelowHp(ConfigValue<Slider>("ComboHealthW").Value, W.Range);
             if (ally != null) // force heal low ally
             {
-                W.CastOnUnit(ally);
+                W.Cast(ally);
                 return;
             }
 
@@ -148,12 +148,12 @@ namespace AutoSharp.Plugins
 
                 if (bounceTarget != null && bounceTarget.MaxHealth - bounceTarget.Health > WHeal) // use bounce & heal
                 {
-                    W.CastOnUnit(bounceTarget);
+                    W.Cast(bounceTarget);
                 }
             }
             else // target in range
             {
-                W.CastOnUnit(Target);
+                W.Cast(Target);
             }
         }
 

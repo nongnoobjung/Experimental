@@ -727,8 +727,10 @@ namespace AutoSharp.Utils
                             .MaxOrDefault(mob => mob.MaxHealth);
                     if (result != null)
                     {
-                        return result;
+                        var tg = (Obj_AI_Base) result;
+                        return tg.CharData.BaseSkinName != "gangplankbarrel" ? result : null;
                     }
+
                 }
 
                 /*Lane Clear minions*/

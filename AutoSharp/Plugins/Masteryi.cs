@@ -76,25 +76,25 @@ namespace AutoSharp.Plugins
             var target = TargetSelector.GetTarget(900, TargetSelector.DamageType.Physical);
             if (Q.GetDamage(target) >= target.Health)
             {
-                Q.CastOnUnit(target);
+                Q.Cast(target);
             }
 
             if ((Player.MoveSpeed - target.MoveSpeed) < 50 && target.IsMoving)
             {
 
-                Q.CastOnUnit(target);
+                Q.Cast(target);
             }
             if ((target.IsDashing() || target.LastCastedSpellName() == "SummonerFlash") )
             {
-                Q.CastOnUnit(target);
+                Q.Cast(target);
             }
             if (Player.Health < Player.MaxHealth / 4 )
             {
-                Q.CastOnUnit(target);
+                Q.Cast(target);
             }
             if (Q.IsReady())
             {
-                Q.CastOnUnit(target);
+                Q.Cast(target);
 
             }
         }

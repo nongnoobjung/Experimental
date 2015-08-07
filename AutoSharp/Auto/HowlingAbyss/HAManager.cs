@@ -12,7 +12,7 @@ namespace AutoSharp.Auto.HowlingAbyss
             Game.OnUpdate += DecisionMaker.OnUpdate;
             AttackableUnit.OnDamage += OnDamage;
             Obj_AI_Base.OnIssueOrder += OnIssueOrder;
-            ARAMShopAI.Main.Init();
+            ARAMShopAI.Main.Init(); 
         }
 
         public static void Unload()

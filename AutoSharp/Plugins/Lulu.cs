@@ -53,7 +53,7 @@ namespace AutoSharp.Plugins
 
                 if (W.CastCheck(Target, "ComboW"))
                 {
-                    W.CastOnUnit(Target);
+                    W.Cast(Target);
                 }
             }
 
@@ -75,7 +75,7 @@ namespace AutoSharp.Plugins
 
             if (W.CastCheck(gapcloser.Sender, "GapcloserW"))
             {
-                W.CastOnUnit(gapcloser.Sender);
+                W.Cast(gapcloser.Sender);
             }
         }
 
@@ -88,7 +88,7 @@ namespace AutoSharp.Plugins
 
             if (W.CastCheck(unit, "InterruptW"))
             {
-                W.CastOnUnit(unit);
+                W.Cast(unit);
             }
         }
 

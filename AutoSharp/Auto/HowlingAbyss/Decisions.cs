@@ -9,30 +9,39 @@ namespace AutoSharp.Auto.HowlingAbyss
     {
         internal static bool HealUp()
         {
-            if (Heroes.Player.HealthPercent > 75) return false;
+            if (Heroes.Player.IsDead)
+            {
+                Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
+                return true;
+            }
 
-            var closestEnemyBuff = HealingBuffs.EnemyBuffs.FirstOrDefault(eb => eb.Position.Distance(Heroes.Player.Position) < 700);
-            var closestAllyBuff = HealingBuffs.AllyBuffs.FirstOrDefault();
+            if (Heroes.Player.HealthPercent >= 75) return false;
+
+            var closestEnemyBuff = HealingBuffs.EnemyBuffs.FirstOrDefault(eb => eb.IsVisible && eb.IsValid && eb.Position.Distance(Heroes.Player.Position) < 800 && (eb.Position.CountEnemiesInRange(600) == 0 || eb.Position.CountEnemiesInRange(600) < eb.Position.CountAlliesInRange(600)));
+            var closestAllyBuff = HealingBuffs.AllyBuffs.FirstOrDefault(ab => ab.IsVisible && ab.IsValid);
+
 
             //BUFF EXISTANCE CHECKS;
-            if (HealingBuffs.AllyBuffs.FirstOrDefault() == null && closestEnemyBuff == null) return false;
+            if ((closestAllyBuff == null && closestEnemyBuff == null)) return false;
 
             //BECAUSE WE CHECKED THAT BUFFS CAN'T BE BOTH NULL; IF ONE OF THEM IS NULL IT MEANS THE OTHER ISN'T.
             // ReSharper disable once PossibleNullReferenceException
-            var buffPos = closestEnemyBuff != null ? closestEnemyBuff.Position.RandomizePosition() : closestAllyBuff.Position.RandomizePosition();
+            var buffPos = closestEnemyBuff != null ? closestEnemyBuff.Position.Randomize(0, 15) : closestAllyBuff.Position.Randomize(0,15);
+
+            if (Heroes.Player.Position.Distance(buffPos) <= 800 && (Heroes.Player.CountEnemiesInRange(800) == 0 || Heroes.Player.CountEnemiesInRange(800) < Heroes.Player.CountAlliesInRange(800)))
+            {
+                Program.Orbwalker.SetOrbwalkingPoint(buffPos);
+                return true;
+            }
 
             //stay in fight if you can't instantly gratify yourself and u don't really need the buff
-            if (Heroes.Player.HealthPercent > 45 && Heroes.Player.CountEnemiesInRange(900) <= Heroes.Player.CountAlliesInRange(900) && Heroes.Player.Distance(buffPos) > 1000) return false;
+            if (Heroes.Player.HealthPercent >= 45 && Heroes.Player.CountEnemiesInRange(900) <= Heroes.Player.CountAlliesInRange(900) && Heroes.Player.Distance(buffPos) > 1000) return false;
 
             //IF BUFFPOS IS VECTOR ZERO OR NOT VALID SOMETHING MUST HAVE GONE WRONG
             if (!buffPos.IsValid()) return false;
 
-            //ONDELETE IS SLOWPOKE's HOME
-            if (Heroes.Player.Distance(buffPos) < 75) { HealingBuffs.RemoveBuff(buffPos); }
-
             //MOVE TO BUFFPOS
-            Program.Orbwalker.ActiveMode = MyOrbwalker.OrbwalkingMode.None;
-            Heroes.Player.IssueOrder(GameObjectOrder.MoveTo, buffPos);
+            Program.Orbwalker.SetOrbwalkingPoint(buffPos);
 
             //STOP EVERYTHING ELSE TO DO THIS
             return true;
